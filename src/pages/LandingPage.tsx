@@ -27,7 +27,7 @@ export function LandingPage() {
       </div>
 
       <div className="p-2 pb-4 sm:p-4">
-        <Footer panelClass={PANEL} />
+        <Footer />
       </div>
     </div>
   );
