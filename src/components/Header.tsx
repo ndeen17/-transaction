@@ -37,7 +37,7 @@ export function Header() {
 
   return (
     <header className="relative">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center px-2 py-2 sm:px-4">
+      <div className="flex items-center justify-between px-2 py-2 sm:px-4 md:grid md:grid-cols-[1fr_auto_1fr]">
         <Link to="/" className="justify-self-start">
           <Logo />
         </Link>
