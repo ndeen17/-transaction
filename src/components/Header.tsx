@@ -64,7 +64,7 @@ export function Header() {
           <button className="hidden text-sm text-ink md:inline-block">Log in</button>
           <Link
             to="/signup"
-            className="flex items-center gap-1.5 rounded-full bg-blue-600 py-2 pl-4 pr-2 text-sm font-medium text-white"
+            className="hidden items-center gap-1.5 rounded-full bg-blue-600 py-2 pl-4 pr-2 text-sm font-medium text-white md:flex"
           >
             Sign up
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
@@ -98,6 +98,17 @@ export function Header() {
               {link.label}
             </a>
           ))}
+          <Link
+            to="/signup"
+            onClick={() => setOpen(false)}
+            className="mt-1 flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 py-2.5 text-sm font-medium text-white"
+          >
+            Sign up
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
+              <ArrowRightIcon className="h-3.5 w-3.5" />
+            </span>
+          </Link>
+
           <div className="mt-1 flex items-center justify-between border-t border-[#EEF1F5] px-4 pt-3">
             <button className="flex items-center gap-1.5 text-sm text-ink">
               <GlobeIcon className="h-4 w-4" />
