@@ -16,6 +16,29 @@
   --color-positive: #22c55e;
   --color-negative-1: #f5943d;
   --color-negative-2: #f2555a;
+
+  --animate-float-a: float-a 4s ease-in-out infinite;
+  --animate-float-b: float-b 4.6s ease-in-out infinite;
+}
+
+@keyframes float-a {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-b {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
 }
 
 html {

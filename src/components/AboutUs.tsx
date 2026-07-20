@@ -1,4 +1,4 @@
-import { AboutIllustration } from "./AboutIllustration";
+import { AboutPhoto } from "./AboutPhoto";
 import { ArrowRightIcon } from "./icons";
 
 export function AboutUs({ panelClass }: { panelClass: string }) {
@@ -30,8 +30,8 @@ export function AboutUs({ panelClass }: { panelClass: string }) {
         </button>
       </div>
 
-      <div className="min-h-[300px] overflow-hidden rounded-[24px] bg-[#EAF3FF] sm:min-h-[380px] sm:rounded-[32px] lg:min-h-[460px]">
-        <AboutIllustration />
+      <div className="min-h-[300px] overflow-hidden rounded-[24px] sm:min-h-[380px] sm:rounded-[32px] lg:min-h-[460px]">
+        <AboutPhoto />
       </div>
     </div>
   );
