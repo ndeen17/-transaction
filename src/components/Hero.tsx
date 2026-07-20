@@ -139,7 +139,7 @@ export function Hero() {
         </h1>
 
         <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-muted sm:mt-5 sm:max-w-md">
-          We are offers personal and business accounts that are easy to open
+          We offer personal and business accounts that are easy to open
         </p>
 
         <Link
