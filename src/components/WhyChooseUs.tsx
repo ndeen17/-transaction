@@ -9,7 +9,7 @@ import {
 
 export function WhyChooseUs({ panelClass }: { panelClass: string }) {
   return (
-    <div className={`${panelClass} p-5 sm:p-10`}>
+    <div id="why-choose-us" className={`${panelClass} p-5 sm:p-10`}>
       <div className="flex flex-col items-center text-center">
         <span className="inline-flex w-fit items-center rounded-full bg-badge-bg px-3.5 py-1.5 text-xs font-medium text-badge-text">
           Features

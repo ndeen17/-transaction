@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRightIcon, GlobeIcon } from "./icons";
+import { Logo } from "./Logo";
 
 const NAV_LINKS = [
-  { label: "Home", active: true },
-  { label: "About Us", active: false },
-  { label: "How To", active: false },
-  { label: "Faq", active: false },
+  { label: "Home", href: "#top" },
+  { label: "About Us", href: "#about" },
+  { label: "How To", href: "#why-choose-us" },
+  { label: "Faq", href: "#faq" },
 ];
 
 function MenuIcon({ open }: { open: boolean }) {
@@ -36,20 +37,18 @@ export function Header() {
 
   return (
     <header className="relative">
-      <div className="flex items-center justify-between px-2 py-2 sm:px-4">
-        <span className="text-[15px] font-medium tracking-tight text-ink">
-          Currency Exchange
-        </span>
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center px-2 py-2 sm:px-4">
+        <Link to="/" className="justify-self-start">
+          <Logo />
+        </Link>
 
-        <nav className="hidden items-center gap-1 rounded-full bg-[#F4F6F9] p-1 md:flex">
-          {NAV_LINKS.map((link) => (
+        <nav className="hidden items-center gap-1 justify-self-center rounded-full bg-[#F4F6F9] p-1 md:flex">
+          {NAV_LINKS.map((link, i) => (
             <a
               key={link.label}
-              href="#"
+              href={link.href}
               className={`rounded-full px-4 py-2 text-sm transition-colors ${
-                link.active
-                  ? "bg-white text-ink shadow-sm"
-                  : "text-muted hover:text-ink"
+                i === 0 ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"
               }`}
             >
               {link.label}
@@ -57,7 +56,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center justify-self-end gap-2 sm:gap-3">
           <button className="hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm text-ink md:flex">
             <GlobeIcon className="h-4 w-4" />
             English
@@ -87,12 +86,13 @@ export function Header() {
 
       {open && (
         <nav className="mx-2 mb-2 flex flex-col gap-1 rounded-2xl border border-[#EEF1F5] bg-[#F9FAFC] p-2 md:hidden">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.map((link, i) => (
             <a
               key={link.label}
-              href="#"
+              href={link.href}
+              onClick={() => setOpen(false)}
               className={`rounded-xl px-4 py-2.5 text-sm ${
-                link.active ? "bg-white font-medium text-ink shadow-sm" : "text-muted"
+                i === 0 ? "bg-white font-medium text-ink shadow-sm" : "text-muted"
               }`}
             >
               {link.label}
