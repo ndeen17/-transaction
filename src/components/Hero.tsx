@@ -94,7 +94,7 @@ function ChartCard() {
         </div>
         <svg viewBox="0 0 220 90" className="mt-6 h-16 w-full" preserveAspectRatio="none">
           <path
-            d="M0 55 C 14 60, 22 30, 36 34 S 58 66, 72 58 90 20 104 26 124 60 138 50 156 18 170 22 190 46 206 34 220 40"
+            d="M0 55 C 14 60, 22 30, 36 34 S 58 66, 72 58 90 20 104 26 124 60 138 50 156 18 170 22 190 46 206 34 218 38 220 40"
             fill="none"
             stroke="#4F9BFF"
             strokeWidth="2.5"
@@ -118,7 +118,7 @@ function ChartCard() {
 
 export function Hero() {
   return (
-    <div className="px-2 pb-10 pt-8 sm:px-4">
+    <div className="px-2 pb-6 pt-6 sm:px-4 sm:pb-10 sm:pt-8">
       <div className="flex flex-col items-center text-center">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-badge-bg px-3.5 py-1.5 text-xs font-medium text-badge-text">
           <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
@@ -133,15 +133,15 @@ export function Hero() {
           Currency Exchange
         </span>
 
-        <h1 className="mt-6 max-w-4xl text-[44px] font-medium leading-[1.05] tracking-tight text-ink sm:text-[64px] lg:text-[76px]">
+        <h1 className="mt-5 max-w-4xl text-[36px] font-medium leading-[1.08] tracking-tight text-ink sm:mt-6 sm:text-[56px] lg:text-[76px]">
           Global. Online. Banking.
         </h1>
 
-        <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+        <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-muted sm:mt-5 sm:max-w-md">
           We are offers personal and business accounts that are easy to open
         </p>
 
-        <button className="mt-7 flex items-center gap-2 rounded-full bg-gradient-to-b from-blue-600 to-blue-700 py-3 pl-6 pr-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25">
+        <button className="mt-6 flex items-center gap-2 rounded-full bg-gradient-to-b from-blue-600 to-blue-700 py-3 pl-6 pr-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 sm:mt-7">
           Get Started
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
             <ArrowRightIcon className="h-4 w-4" />
@@ -149,7 +149,7 @@ export function Hero() {
         </button>
       </div>
 
-      <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-3">
         <ExchangeCard />
         <PromoCard />
         <ChartCard />

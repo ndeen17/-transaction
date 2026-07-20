@@ -1,10 +1,10 @@
 import { AboutIllustration } from "./AboutIllustration";
 import { ArrowRightIcon } from "./icons";
 
-export function AboutUs() {
+export function AboutUs({ panelClass }: { panelClass: string }) {
   return (
-    <div id="about" className="grid grid-cols-1 gap-5 p-2 sm:p-4 lg:grid-cols-2">
-      <div className="flex flex-col justify-center rounded-[28px] bg-white p-8 sm:p-12">
+    <div id="about" className="grid grid-cols-1 gap-4 p-2 sm:gap-5 sm:p-4 lg:grid-cols-2">
+      <div className={`${panelClass} flex flex-col justify-center p-6 sm:p-10 lg:p-12`}>
         <span className="inline-flex w-fit items-center rounded-full bg-badge-bg px-3.5 py-1.5 text-xs font-medium text-badge-text">
           About us
         </span>
@@ -30,7 +30,7 @@ export function AboutUs() {
         </button>
       </div>
 
-      <div className="min-h-[380px] overflow-hidden rounded-[28px] bg-[#EAF3FF] sm:min-h-[460px]">
+      <div className="min-h-[300px] overflow-hidden rounded-[24px] bg-[#EAF3FF] sm:min-h-[380px] sm:rounded-[32px] lg:min-h-[460px]">
         <AboutIllustration />
       </div>
     </div>

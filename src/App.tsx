@@ -1,26 +1,23 @@
-import { AboutUs } from "./components/AboutUs";
-import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import { TrustBar } from "./components/TrustBar";
-import { WhyChooseUs } from "./components/WhyChooseUs";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { LandingPage } from "./pages/LandingPage";
+import { SignupWizard } from "./pages/signup/SignupWizard";
+import { DashboardPage } from "./pages/DashboardPage";
+import { TermsPage } from "./pages/TermsPage";
+import { PrivacyPage } from "./pages/PrivacyPage";
 
 function App() {
   return (
-    <div className="min-h-screen bg-page px-3 py-3 sm:px-6 sm:py-6">
-      <div className="mx-auto flex max-w-[1240px] flex-col gap-5">
-        <div className="rounded-[32px] bg-white p-3 sm:p-5">
-          <Header />
-          <Hero />
-          <TrustBar />
-        </div>
-
-        <AboutUs />
-
-        <div className="p-2 sm:p-4">
-          <WhyChooseUs />
-        </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-white px-3 py-3 sm:px-6 sm:py-6">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<SignupWizard />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+        </Routes>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 

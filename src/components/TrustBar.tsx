@@ -24,7 +24,7 @@ export function TrustBar() {
       </div>
 
       <a href="#about" className="flex items-center gap-2 text-sm text-ink">
-        Scroll down
+        <span className="hidden sm:inline">Scroll down</span>
         <ArrowDownCircleIcon className="h-7 w-7 text-ink" />
       </a>
     </div>
