@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRightIcon, PencilIcon } from "./icons";
 
 function ExchangeCard() {
@@ -141,12 +142,15 @@ export function Hero() {
           We are offers personal and business accounts that are easy to open
         </p>
 
-        <button className="mt-6 flex items-center gap-2 rounded-full bg-gradient-to-b from-blue-600 to-blue-700 py-3 pl-6 pr-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 sm:mt-7">
+        <Link
+          to="/signup"
+          className="mt-6 flex items-center gap-2 rounded-full bg-gradient-to-b from-blue-600 to-blue-700 py-3 pl-6 pr-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 sm:mt-7"
+        >
           Get Started
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
             <ArrowRightIcon className="h-4 w-4" />
           </span>
-        </button>
+        </Link>
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-3">

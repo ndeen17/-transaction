@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { AboutPhoto } from "./AboutPhoto";
 import { ArrowRightIcon } from "./icons";
 
@@ -22,12 +23,15 @@ export function AboutUs({ panelClass }: { panelClass: string }) {
           seamless as local
         </p>
 
-        <button className="mt-8 flex w-fit items-center gap-2 rounded-full bg-ink py-3 pl-6 pr-3 text-sm font-medium text-white">
+        <Link
+          to="/signup"
+          className="mt-8 flex w-fit items-center gap-2 rounded-full bg-ink py-3 pl-6 pr-3 text-sm font-medium text-white"
+        >
           Get Started
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15">
             <ArrowRightIcon className="h-4 w-4" />
           </span>
-        </button>
+        </Link>
       </div>
 
       <div className="min-h-[300px] overflow-hidden rounded-[24px] sm:min-h-[380px] sm:rounded-[32px] lg:min-h-[460px]">
