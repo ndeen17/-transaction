@@ -2,6 +2,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { WizardPanel } from "../components/ui/WizardPanel";
+import { Logo } from "../components/Logo";
 
 interface StoredUser {
   firstName: string;
@@ -30,7 +31,7 @@ export function DashboardPage() {
   return (
     <div className="mx-auto max-w-[760px]">
       <div className="mb-4 flex items-center justify-between px-1">
-        <span className="text-sm font-medium text-ink">Currency Exchange</span>
+        <Logo />
         <button type="button" onClick={handleLogout} className="text-sm text-muted hover:text-ink">
           Log out
         </button>

@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { PANEL } from "../lib/theme";
+import { Logo } from "../components/Logo";
 
 export function PrivacyPage() {
   return (
     <div className="mx-auto max-w-[760px]">
       <div className="mb-4 px-1">
-        <Link to="/" className="text-sm font-medium text-ink">
-          Currency Exchange
+        <Link to="/">
+          <Logo />
         </Link>
       </div>
 

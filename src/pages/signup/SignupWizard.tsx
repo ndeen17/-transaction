@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../components/ui/Button";
 import { ProgressSteps } from "../../components/ui/ProgressSteps";
 import { WizardPanel } from "../../components/ui/WizardPanel";
+import { Logo } from "../../components/Logo";
 import {
   STEP_FIELDS,
   defaultSignupValues,
@@ -92,8 +93,8 @@ export function SignupWizard() {
   return (
     <div className="mx-auto max-w-[760px]">
       <div className="mb-4 flex items-center justify-between px-1">
-        <Link to="/" className="text-sm font-medium text-ink">
-          Currency Exchange
+        <Link to="/">
+          <Logo />
         </Link>
         {phase === "form" && (
           <Link to="/" className="text-sm text-muted hover:text-ink">

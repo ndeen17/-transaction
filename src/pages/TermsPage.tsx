@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { PANEL } from "../lib/theme";
+import { Logo } from "../components/Logo";
 
 export function TermsPage() {
   return (
     <div className="mx-auto max-w-[760px]">
       <div className="mb-4 px-1">
-        <Link to="/" className="text-sm font-medium text-ink">
-          Currency Exchange
+        <Link to="/">
+          <Logo />
         </Link>
       </div>
 
@@ -21,7 +22,7 @@ export function TermsPage() {
           <section>
             <h2 className="text-base font-semibold">1. Acceptance of terms</h2>
             <p className="mt-2 text-muted">
-              By creating an account with Currency Exchange, you agree to be bound by these Terms
+              By creating an account with Astera Banking, you agree to be bound by these Terms
               and Conditions and all applicable laws and regulations governing the provision of
               banking and currency exchange services.
             </p>
