@@ -97,6 +97,14 @@ export function resendOtp(userId: string) {
   });
 }
 
+export function login(loginId: string, password: string) {
+  return request<VerifyOtpResult>("/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ loginId, password }),
+  });
+}
+
 export function fetchMe(token: string) {
   return request<VerifyOtpResult["user"] & { lastName: string }>("/auth/me", {
     headers: { Authorization: `Bearer ${token}` },

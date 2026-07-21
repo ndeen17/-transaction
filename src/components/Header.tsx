@@ -61,7 +61,9 @@ export function Header() {
             <GlobeIcon className="h-4 w-4" />
             English
           </button>
-          <button className="hidden text-sm text-ink md:inline-block">Log in</button>
+          <Link to="/login" className="hidden text-sm text-ink md:inline-block">
+            Log in
+          </Link>
           <Link
             to="/signup"
             className="hidden items-center gap-1.5 rounded-full bg-blue-600 py-2 pl-4 pr-2 text-sm font-medium text-white md:flex"
@@ -114,7 +116,9 @@ export function Header() {
               <GlobeIcon className="h-4 w-4" />
               English
             </button>
-            <button className="text-sm text-ink">Log in</button>
+            <Link to="/login" onClick={() => setOpen(false)} className="text-sm text-ink">
+              Log in
+            </Link>
           </div>
         </nav>
       )}
