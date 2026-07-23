@@ -85,7 +85,17 @@ export const INDUSTRIES = [
 ];
 
 const MAX_FILE_SIZE_MB = 5;
-const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+const ACCEPTED_FILE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+  "application/pdf",
+];
+// Fallback for browsers that report an empty/generic MIME type for HEIC/HEIF photos
+// (common on some mobile camera-roll pickers) — fall back to the file extension.
+const ACCEPTED_FILE_EXTENSIONS_RE = /\.(jpe?g|png|webp|heic|heif|pdf)$/i;
 
 function isAtLeast18(dob: string) {
   const date = new Date(dob);
@@ -140,7 +150,10 @@ export const kycSchema = z.object({
   idDocument: z
     .instanceof(File, { message: "Upload your ID document" })
     .refine((f) => f.size <= MAX_FILE_SIZE_MB * 1024 * 1024, `File must be under ${MAX_FILE_SIZE_MB}MB`)
-    .refine((f) => ACCEPTED_FILE_TYPES.includes(f.type), "Upload a JPG, PNG, WEBP, or PDF"),
+    .refine(
+      (f) => ACCEPTED_FILE_TYPES.includes(f.type) || ACCEPTED_FILE_EXTENSIONS_RE.test(f.name),
+      "Upload a JPG, PNG, WEBP, HEIC, or PDF",
+    ),
 });
 
 export const employmentSchema = z.object({

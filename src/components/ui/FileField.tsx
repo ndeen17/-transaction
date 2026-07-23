@@ -8,7 +8,11 @@ interface FileFieldProps {
   accept?: string;
 }
 
-export function FileField({ name, label, accept = ".jpg,.jpeg,.png,.webp,.pdf" }: FileFieldProps) {
+export function FileField({
+  name,
+  label,
+  accept = ".jpg,.jpeg,.png,.webp,.heic,.heif,.pdf,image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf",
+}: FileFieldProps) {
   const {
     register,
     setValue,
@@ -45,7 +49,7 @@ export function FileField({ name, label, accept = ".jpg,.jpeg,.png,.webp,.pdf" }
         {file ? (
           <span className="text-sm font-medium text-ink">{file.name}</span>
         ) : (
-          <span className="text-sm text-muted">JPG, PNG, WEBP, or PDF — up to 5MB</span>
+          <span className="text-sm text-muted">JPG, PNG, WEBP, HEIC, or PDF — up to 5MB</span>
         )}
         <span className="mt-1 inline-flex items-center rounded-full bg-[#F6F8FB] px-4 py-2 text-xs font-medium text-ink">
           {file ? "Choose a different file" : "Choose file"}
