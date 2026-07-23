@@ -1,13 +1,22 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DashField, dashInputClass } from "../dashboard/DashField";
+import { DashField } from "../dashboard/DashField";
+import { dashInputClass } from "../dashboard/inputStyles";
 import { DashboardButton } from "../dashboard/DashboardButton";
 import { depositDetailsSchema, type DepositDetailsValues } from "../../lib/transactionSchema";
+
+interface DepositFormInput {
+  amount: string;
+}
 
 interface DepositDetailsStepProps {
   defaultValues?: Partial<DepositDetailsValues>;
   onContinue: (values: DepositDetailsValues) => void;
+}
+
+function toFormInput(values?: Partial<DepositDetailsValues>): DepositFormInput {
+  return { amount: values?.amount !== undefined ? String(values.amount) : "" };
 }
 
 export function DepositDetailsStep({ defaultValues, onContinue }: DepositDetailsStepProps) {
@@ -16,13 +25,13 @@ export function DepositDetailsStep({ defaultValues, onContinue }: DepositDetails
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<DepositDetailsValues>({
+  } = useForm<DepositFormInput, unknown, DepositDetailsValues>({
     resolver: zodResolver(depositDetailsSchema),
-    defaultValues: { amount: undefined as unknown as number, ...defaultValues },
+    defaultValues: toFormInput(defaultValues),
   });
 
   useEffect(() => {
-    if (defaultValues) reset((current) => ({ ...current, ...defaultValues }));
+    if (defaultValues) reset(toFormInput(defaultValues));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValues]);
 

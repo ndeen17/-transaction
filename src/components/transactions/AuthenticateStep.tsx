@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DashField, dashInputClass } from "../dashboard/DashField";
+import { DashField } from "../dashboard/DashField";
+import { dashInputClass } from "../dashboard/inputStyles";
 import { DashboardButton } from "../dashboard/DashboardButton";
 import { PinInput } from "../dashboard/PinInput";
 import { LockIcon } from "../dashboard/icons";

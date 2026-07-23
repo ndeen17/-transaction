@@ -1,13 +1,32 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DashField, dashInputClass } from "../dashboard/DashField";
+import { DashField } from "../dashboard/DashField";
+import { dashInputClass } from "../dashboard/inputStyles";
 import { DashboardButton } from "../dashboard/DashboardButton";
 import { transferDetailsSchema, type TransferDetailsValues } from "../../lib/transactionSchema";
+
+interface TransferFormInput {
+  recipientName: string;
+  bankName: string;
+  recipientAccountNumber: string;
+  amount: string;
+  narration?: string;
+}
 
 interface TransferDetailsStepProps {
   defaultValues?: Partial<TransferDetailsValues>;
   onContinue: (values: TransferDetailsValues) => void;
+}
+
+function toFormInput(values?: Partial<TransferDetailsValues>): TransferFormInput {
+  return {
+    recipientName: values?.recipientName ?? "",
+    bankName: values?.bankName ?? "",
+    recipientAccountNumber: values?.recipientAccountNumber ?? "",
+    amount: values?.amount !== undefined ? String(values.amount) : "",
+    narration: values?.narration ?? "",
+  };
 }
 
 export function TransferDetailsStep({ defaultValues, onContinue }: TransferDetailsStepProps) {
@@ -16,20 +35,13 @@ export function TransferDetailsStep({ defaultValues, onContinue }: TransferDetai
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TransferDetailsValues>({
+  } = useForm<TransferFormInput, unknown, TransferDetailsValues>({
     resolver: zodResolver(transferDetailsSchema),
-    defaultValues: {
-      recipientName: "",
-      bankName: "",
-      recipientAccountNumber: "",
-      amount: undefined as unknown as number,
-      narration: "",
-      ...defaultValues,
-    },
+    defaultValues: toFormInput(defaultValues),
   });
 
   useEffect(() => {
-    if (defaultValues) reset((current) => ({ ...current, ...defaultValues }));
+    if (defaultValues) reset(toFormInput(defaultValues));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValues]);
 
