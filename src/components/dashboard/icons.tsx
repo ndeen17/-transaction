@@ -182,3 +182,31 @@ export function MenuGridIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function ShieldIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3.5 5 6v5.5c0 4.4 3 7.9 7 9 4-1.1 7-4.6 7-9V6l-7-2.5Z" {...stroke} />
+      <path d="M9 12l2 2 4-4.2" {...stroke} />
+    </svg>
+  );
+}
+
+export function InboxIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3.5 13 6 5h12l2.5 8" {...stroke} />
+      <path d="M3.5 13v5a1.5 1.5 0 0 0 1.5 1.5h14A1.5 1.5 0 0 0 20.5 18v-5" {...stroke} />
+      <path d="M3.5 13h5.2c.3 1.2 1.4 2 2.8 2s2.5-.8 2.8-2h5.2" {...stroke} />
+    </svg>
+  );
+}
+
+export function PlusCircleIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="8.5" {...stroke} />
+      <path d="M12 8.3v7.4M8.3 12h7.4" {...stroke} />
+    </svg>
+  );
+}
