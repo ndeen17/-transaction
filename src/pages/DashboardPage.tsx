@@ -3,9 +3,11 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { AccountCard } from "../components/dashboard/AccountCard";
 import { ComingSoonToast } from "../components/dashboard/ComingSoonToast";
 import { DashboardBottomNav, DashboardSidebar } from "../components/dashboard/DashboardNav";
+import { DashboardButton } from "../components/dashboard/DashboardButton";
 import { DashboardTopbar } from "../components/dashboard/DashboardTopbar";
+import { InboxIcon, PlusCircleIcon, ShieldIcon } from "../components/dashboard/icons";
 import { QuickActions } from "../components/dashboard/QuickActions";
-import { PANEL } from "../lib/theme";
+import { DASH_CARD } from "../components/dashboard/theme";
 import { ApiRequestError, fetchMe, type UserSummary } from "../lib/api";
 
 export function DashboardPage() {
@@ -57,42 +59,92 @@ export function DashboardPage() {
 
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <p className="text-sm text-muted">Loading your dashboard…</p>
+      <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
+        <p className="text-sm text-[#6B7280]">Loading your dashboard…</p>
       </div>
     );
   }
 
+  const needsVerification = user.status === "pending_verification" || user.kycReviewStatus === "pending";
+  const hasZeroBalance = user.account.balance === 0;
+
   return (
-    <div className="min-h-screen bg-white pb-24 lg:pb-0 lg:pl-64">
+    <div className="min-h-screen bg-[#F8FAFC] pb-28 lg:pb-0 lg:pl-64">
       <DashboardSidebar onComingSoon={handleComingSoon} onLogout={handleLogout} />
 
-      <div className="mx-auto max-w-[860px] px-4 pt-5 sm:px-6 sm:pt-7 lg:px-10 lg:pt-10">
+      <div className="mx-auto max-w-[900px] px-4 pb-6 pt-5 sm:px-6 sm:pt-8 lg:px-12 lg:pt-12">
         <DashboardTopbar firstName={user.firstName} onComingSoon={handleComingSoon} />
 
-        <div className="mt-6 sm:mt-8">
+        <div className="mt-8 sm:mt-10">
           <AccountCard accountType={user.accountType} status={user.status} account={user.account} />
         </div>
 
-        {user.status === "pending_verification" || user.kycReviewStatus === "pending" ? (
-          <div className="mt-6 rounded-2xl border border-[#EEF1F5] bg-[#FFF8EC] px-4 py-3 text-sm text-[#8A6116]">
-            Your identity verification is still under review. Some features may be limited until
-            it's approved.
+        {needsVerification && (
+          <div className={`${DASH_CARD} mt-6 flex flex-col gap-4 p-5 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:p-6`}>
+            <div className="flex items-start gap-3.5">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFFBEB] text-[#B45309]">
+                <ShieldIcon className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-[#111827]">Complete your identity verification</p>
+                <p className="mt-1 text-sm leading-relaxed text-[#6B7280]">
+                  Your account is under review. Some features remain unavailable until
+                  verification is complete.
+                </p>
+              </div>
+            </div>
+            <DashboardButton
+              variant="secondary"
+              onClick={() => handleComingSoon("Verification status")}
+              className="shrink-0"
+            >
+              Continue Verification
+            </DashboardButton>
           </div>
-        ) : null}
+        )}
 
-        <div className={`${PANEL} mt-6 p-5 sm:mt-8 sm:p-8`}>
-          <h2 className="text-sm font-semibold text-ink">Quick actions</h2>
+        <div className={`${DASH_CARD} mt-6 p-5 sm:mt-8 sm:p-8`}>
+          <h2 className="text-[15px] font-semibold text-[#111827]">Quick actions</h2>
           <div className="mt-5">
             <QuickActions onSelect={handleComingSoon} />
           </div>
+        </div>
+
+        <div className={`${DASH_CARD} mt-6 p-6 sm:mt-8 sm:p-8`}>
+          <h2 className="text-[15px] font-semibold text-[#111827]">Recent activity</h2>
+
+          {hasZeroBalance ? (
+            <div className="mt-6 flex flex-col items-center rounded-2xl border border-dashed border-[#E5E7EB] px-6 py-10 text-center">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-badge-bg text-blue-600">
+                <PlusCircleIcon className="h-6 w-6" />
+              </span>
+              <p className="mt-4 text-sm font-semibold text-[#111827]">Your account is ready.</p>
+              <p className="mt-1 max-w-xs text-sm text-[#6B7280]">
+                Make your first deposit to start using your account.
+              </p>
+              <DashboardButton
+                onClick={() => handleComingSoon("Deposit Funds")}
+                className="mt-5"
+              >
+                Deposit Funds
+              </DashboardButton>
+            </div>
+          ) : (
+            <div className="mt-6 flex flex-col items-center rounded-2xl border border-dashed border-[#E5E7EB] px-6 py-10 text-center">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F3F4F6] text-[#6B7280]">
+                <InboxIcon className="h-6 w-6" />
+              </span>
+              <p className="mt-4 text-sm font-semibold text-[#111827]">No recent transactions yet.</p>
+              <p className="mt-1 max-w-xs text-sm text-[#6B7280]">Your activity will appear here.</p>
+            </div>
+          )}
         </div>
       </div>
 
       <DashboardBottomNav onComingSoon={handleComingSoon} onLogout={handleLogout} />
 
       {loading && (
-        <p className="fixed bottom-20 left-1/2 -translate-x-1/2 text-xs text-muted lg:bottom-4">
+        <p className="fixed bottom-24 left-1/2 -translate-x-1/2 text-xs text-[#6B7280] lg:bottom-4">
           Syncing…
         </p>
       )}
