@@ -84,6 +84,7 @@ export interface UserSummary {
   accountType: string;
   status: string;
   kycReviewStatus: string;
+  hasPin: boolean;
   account: AccountSummary;
 }
 
@@ -118,6 +119,103 @@ export function login(loginId: string, password: string) {
 
 export function fetchMe(token: string) {
   return request<UserSummary>("/auth/me", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function pinStatus(token: string) {
+  return request<{ hasPin: boolean }>("/pin/status", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export interface SetupPinPayload {
+  pin: string;
+  confirmPin: string;
+  currentPassword: string;
+}
+
+export function setupPin(token: string, payload: SetupPinPayload) {
+  return request<{ hasPin: boolean }>("/pin/setup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface TransactionRecipient {
+  name: string;
+  bankName: string;
+  accountNumber: string;
+}
+
+export interface TransactionSummary {
+  id: string;
+  reference: string;
+  type: "transfer" | "deposit";
+  direction: "debit" | "credit";
+  status: "completed" | "failed";
+  simulated: boolean;
+  amount: number;
+  currency: string;
+  narration?: string;
+  balanceAfter: number;
+  recipient?: TransactionRecipient;
+  failureReason?: string;
+  createdAt: string;
+}
+
+export interface SubmitTransferPayload {
+  recipientName: string;
+  bankName: string;
+  recipientAccountNumber: string;
+  amount: number;
+  narration?: string;
+  pin: string;
+}
+
+export function submitTransfer(token: string, payload: SubmitTransferPayload) {
+  return request<TransactionSummary>("/transactions/transfer", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface SubmitDepositPayload {
+  amount: number;
+  pin: string;
+}
+
+export function submitDeposit(token: string, payload: SubmitDepositPayload) {
+  return request<TransactionSummary>("/transactions/deposit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface TransactionListResult {
+  items: TransactionSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function listTransactions(token: string, params: { page?: number; limit?: number } = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<TransactionListResult>(`/transactions${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function getTransaction(token: string, id: string) {
+  return request<TransactionSummary>(`/transactions/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }

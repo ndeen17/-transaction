@@ -7,8 +7,9 @@ import { DashboardButton } from "../components/dashboard/DashboardButton";
 import { DashboardTopbar } from "../components/dashboard/DashboardTopbar";
 import { InboxIcon, PlusCircleIcon, ShieldIcon } from "../components/dashboard/icons";
 import { QuickActions } from "../components/dashboard/QuickActions";
+import { RecentActivity } from "../components/dashboard/RecentActivity";
 import { DASH_CARD } from "../components/dashboard/theme";
-import { ApiRequestError, fetchMe, type UserSummary } from "../lib/api";
+import { ApiRequestError, fetchMe, listTransactions, type TransactionSummary, type UserSummary } from "../lib/api";
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [transactions, setTransactions] = useState<TransactionSummary[]>([]);
 
   useEffect(() => {
     if (!token) return;
@@ -38,6 +40,10 @@ export function DashboardPage() {
         }
       })
       .finally(() => setLoading(false));
+
+    listTransactions(token, { page: 1, limit: 5 })
+      .then((result) => setTransactions(result.items))
+      .catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -113,7 +119,14 @@ export function DashboardPage() {
         <div className={`${DASH_CARD} mt-6 p-6 sm:mt-8 sm:p-8`}>
           <h2 className="text-[15px] font-semibold text-[#111827]">Recent activity</h2>
 
-          {hasZeroBalance ? (
+          {transactions.length > 0 ? (
+            <div className="mt-6">
+              <RecentActivity
+                transactions={transactions}
+                onSelect={(id) => navigate(`/dashboard/transactions/${id}`)}
+              />
+            </div>
+          ) : hasZeroBalance ? (
             <div className="mt-6 flex flex-col items-center rounded-2xl border border-dashed border-[#E5E7EB] px-6 py-10 text-center">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-badge-bg text-blue-600">
                 <PlusCircleIcon className="h-6 w-6" />
@@ -123,7 +136,7 @@ export function DashboardPage() {
                 Make your first deposit to start using your account.
               </p>
               <DashboardButton
-                onClick={() => handleComingSoon("Deposit Funds")}
+                onClick={() => navigate("/dashboard/deposit")}
                 className="mt-5"
               >
                 Deposit Funds

@@ -210,3 +210,79 @@ export function PlusCircleIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function DownloadIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3.5v11.5M8 11.5l4 4 4-4" {...stroke} />
+      <path d="M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2" {...stroke} />
+    </svg>
+  );
+}
+
+export function ShareIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="18" cy="5.5" r="2.3" {...stroke} />
+      <circle cx="6" cy="12" r="2.3" {...stroke} />
+      <circle cx="18" cy="18.5" r="2.3" {...stroke} />
+      <path d="M8 10.7l8-4M8 13.3l8 4" {...stroke} />
+    </svg>
+  );
+}
+
+export function PrintIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 8V4h10v4" {...stroke} />
+      <rect x="4.5" y="8" width="15" height="8" rx="1.8" {...stroke} />
+      <path d="M7 14.5h10V20H7z" {...stroke} />
+    </svg>
+  );
+}
+
+export function RepeatIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 11a7 7 0 0 1 11.6-5.2L19 8" {...stroke} />
+      <path d="M19 4.5V8h-3.5" {...stroke} />
+      <path d="M19 13a7 7 0 0 1-11.6 5.2L5 16" {...stroke} />
+      <path d="M5 19.5V16h3.5" {...stroke} />
+    </svg>
+  );
+}
+
+export function LockIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="5" y="10.5" width="14" height="9" rx="2" {...stroke} />
+      <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" {...stroke} />
+      <circle cx="12" cy="15" r="1.4" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function ArrowUpRightIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 17 17 7M9 7h8v8" {...stroke} />
+    </svg>
+  );
+}
+
+export function ArrowDownLeftIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M17 7 7 17M15 17H7V9" {...stroke} />
+    </svg>
+  );
+}
+
+export function CheckCircleIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="8.5" {...stroke} />
+      <path d="M8.3 12.3l2.5 2.5 5-5.2" {...stroke} />
+    </svg>
+  );
+}
