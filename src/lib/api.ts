@@ -69,16 +69,28 @@ export function submitSignup(values: SignupFormValues) {
   });
 }
 
+export interface AccountSummary {
+  accountNumber: string;
+  balance: number;
+  currency: string;
+  totalCredit: number;
+  totalDebit: number;
+}
+
+export interface UserSummary {
+  id: string;
+  firstName: string;
+  lastName: string;
+  loginId: string;
+  accountType: string;
+  status: string;
+  kycReviewStatus: string;
+  account: AccountSummary;
+}
+
 export interface VerifyOtpResult {
   token: string;
-  user: {
-    id: string;
-    firstName: string;
-    loginId: string;
-    accountType: string;
-    status: string;
-    kycReviewStatus: string;
-  };
+  user: UserSummary;
 }
 
 export function verifyOtp(userId: string, code: string) {
@@ -106,7 +118,7 @@ export function login(loginId: string, password: string) {
 }
 
 export function fetchMe(token: string) {
-  return request<VerifyOtpResult["user"] & { lastName: string }>("/auth/me", {
+  return request<UserSummary>("/auth/me", {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
