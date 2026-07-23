@@ -54,7 +54,6 @@ export function submitSignup(values: SignupFormValues) {
     personal: values.personal,
     contact: values.contact,
     kyc: { idType: kycRest.idType, idNumber: kycRest.idNumber },
-    employment: values.employment,
     auth: values.auth,
     consents: values.consents,
   };

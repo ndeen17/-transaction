@@ -1,10 +1,8 @@
 import { useFormContext } from "react-hook-form";
 import {
   ACCOUNT_TYPE_LABELS,
-  EMPLOYMENT_STATUS_LABELS,
   GENDER_LABELS,
   ID_TYPE_LABELS,
-  INCOME_RANGE_LABELS,
   MARITAL_STATUS_LABELS,
   type SignupFormValues,
 } from "../../lib/signupSchema";
@@ -135,28 +133,8 @@ export function StepReview({ onEdit }: { onEdit: (step: number) => void }) {
         />
 
         <Section
-          title="Employment & financial"
-          step={4}
-          onEdit={onEdit}
-          rows={[
-            {
-              label: "Employment status",
-              value: v.employment?.status ? EMPLOYMENT_STATUS_LABELS[v.employment.status] : "—",
-            },
-            { label: "Occupation", value: v.employment?.occupation || "—" },
-            { label: "Industry", value: v.employment?.industry || "—" },
-            {
-              label: "Annual income",
-              value: v.employment?.annualIncomeRange
-                ? INCOME_RANGE_LABELS[v.employment.annualIncomeRange]
-                : "—",
-            },
-          ]}
-        />
-
-        <Section
           title="Login"
-          step={5}
+          step={4}
           onEdit={onEdit}
           rows={[{ label: "Login ID", value: v.auth?.loginId ?? "—" }]}
         />

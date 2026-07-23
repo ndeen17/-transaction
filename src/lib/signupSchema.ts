@@ -10,20 +10,6 @@ export const MARITAL_STATUSES = [
   "separated",
 ] as const;
 export const ID_TYPES = ["passport", "drivers_license", "national_id"] as const;
-export const EMPLOYMENT_STATUSES = [
-  "employed",
-  "self_employed",
-  "unemployed",
-  "student",
-  "retired",
-] as const;
-export const INCOME_RANGES = [
-  "under_25000",
-  "25000_49999",
-  "50000_99999",
-  "100000_249999",
-  "250000_plus",
-] as const;
 
 export const ACCOUNT_TYPE_LABELS: Record<(typeof ACCOUNT_TYPES)[number], string> = {
   savings: "Savings Account",
@@ -50,39 +36,6 @@ export const ID_TYPE_LABELS: Record<(typeof ID_TYPES)[number], string> = {
   drivers_license: "Driver's License",
   national_id: "National ID",
 };
-
-export const EMPLOYMENT_STATUS_LABELS: Record<(typeof EMPLOYMENT_STATUSES)[number], string> = {
-  employed: "Employed",
-  self_employed: "Self-employed",
-  unemployed: "Unemployed",
-  student: "Student",
-  retired: "Retired",
-};
-
-export const INCOME_RANGE_LABELS: Record<(typeof INCOME_RANGES)[number], string> = {
-  under_25000: "Under $25,000",
-  "25000_49999": "$25,000 – $49,999",
-  "50000_99999": "$50,000 – $99,999",
-  "100000_249999": "$100,000 – $249,999",
-  "250000_plus": "$250,000+",
-};
-
-export const INDUSTRIES = [
-  "Banking & Finance",
-  "Technology",
-  "Healthcare",
-  "Education",
-  "Retail & E-commerce",
-  "Manufacturing",
-  "Construction",
-  "Government",
-  "Hospitality",
-  "Transportation",
-  "Agriculture",
-  "Media & Entertainment",
-  "Legal",
-  "Other",
-];
 
 const MAX_FILE_SIZE_MB = 5;
 const ACCEPTED_FILE_TYPES = [
@@ -156,13 +109,6 @@ export const kycSchema = z.object({
     ),
 });
 
-export const employmentSchema = z.object({
-  status: z.enum(EMPLOYMENT_STATUSES, "Select an employment status"),
-  occupation: z.string().trim().max(120).optional().or(z.literal("")),
-  industry: z.string().trim().max(120).optional().or(z.literal("")),
-  annualIncomeRange: z.enum(INCOME_RANGES, "Select an income range"),
-});
-
 const passwordField = z
   .string()
   .min(8, "At least 8 characters")
@@ -193,7 +139,6 @@ export const signupFormSchema = z.object({
   personal: personalSchema,
   contact: contactSchema,
   kyc: kycSchema,
-  employment: employmentSchema,
   auth: authSchema,
   consents: consentsSchema,
 });
@@ -216,7 +161,6 @@ export const defaultSignupValues = {
     address: { line1: "", city: "", state: "", postalCode: "", country: "" },
   },
   kyc: { idType: undefined, idNumber: "" },
-  employment: { status: undefined, occupation: "", industry: "", annualIncomeRange: undefined },
   auth: { loginId: "", password: "", confirmPassword: "" },
   consents: {
     termsAccepted: false as unknown as true,
@@ -248,12 +192,6 @@ export const STEP_FIELDS = {
     "contact.address.country",
   ] as const,
   kyc: ["kyc.idType", "kyc.idNumber", "kyc.idDocument"] as const,
-  employment: [
-    "employment.status",
-    "employment.occupation",
-    "employment.industry",
-    "employment.annualIncomeRange",
-  ] as const,
   auth: ["auth.loginId", "auth.password", "auth.confirmPassword"] as const,
   consents: [
     "consents.termsAccepted",

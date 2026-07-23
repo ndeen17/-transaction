@@ -17,7 +17,6 @@ import { StepAccountType } from "./StepAccountType";
 import { StepPersonalInfo } from "./StepPersonalInfo";
 import { StepContactInfo } from "./StepContactInfo";
 import { StepIdentityVerification } from "./StepIdentityVerification";
-import { StepEmploymentFinancial } from "./StepEmploymentFinancial";
 import { StepCreateLogin } from "./StepCreateLogin";
 import { StepReview } from "./StepReview";
 import { StepConsent } from "./StepConsent";
@@ -30,7 +29,6 @@ const FORM_STEPS = [
   { key: "personal" as const, label: "Personal info", Component: StepPersonalInfo },
   { key: "contact" as const, label: "Contact info", Component: StepContactInfo },
   { key: "kyc" as const, label: "Identity verification", Component: StepIdentityVerification },
-  { key: "employment" as const, label: "Employment", Component: StepEmploymentFinancial },
   { key: "auth" as const, label: "Create login", Component: StepCreateLogin },
   { key: null, label: "Review", Component: null },
   { key: "consents" as const, label: "Consent", Component: StepConsent },
@@ -56,20 +54,7 @@ export function SignupWizard() {
     const stepKey = FORM_STEPS[step]?.key;
     if (stepKey) {
       const valid = await form.trigger(STEP_FIELDS[stepKey]);
-      if (!valid) {
-        if (stepKey === "kyc") {
-          const raw = form.getValues("kyc.idDocument");
-          // TEMPORARY diagnostics — remove once the KYC-upload issue is confirmed fixed.
-          console.log("[debug] kyc validation failed", {
-            value: raw,
-            isFileInstance: raw instanceof File,
-            ctorName: (raw as { constructor?: { name?: string } } | undefined)?.constructor?.name,
-            typeofValue: typeof raw,
-            errors: form.formState.errors.kyc,
-          });
-        }
-        return;
-      }
+      if (!valid) return;
     }
     setStep((s) => Math.min(s + 1, FORM_STEPS.length - 1));
   }

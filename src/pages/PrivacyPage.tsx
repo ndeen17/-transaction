@@ -23,8 +23,8 @@ export function PrivacyPage() {
             <h2 className="text-base font-semibold">1. Information we collect</h2>
             <p className="mt-2 text-muted">
               When you open an account, we collect personal details (name, date of birth, gender,
-              nationality), contact information, identification documents, and employment and
-              financial information, as required by banking regulations.
+              nationality), contact information, and identification documents, as required by
+              banking regulations.
             </p>
           </section>
           <section>

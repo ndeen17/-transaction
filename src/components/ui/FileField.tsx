@@ -14,7 +14,6 @@ export function FileField({
   accept = ".jpg,.jpeg,.png,.webp,.heic,.heif,.pdf,image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf",
 }: FileFieldProps) {
   const {
-    register,
     setValue,
     watch,
     formState: { errors },
@@ -22,7 +21,6 @@ export function FileField({
 
   const error = getFieldError(errors, name);
   const file = watch(name) as File | undefined;
-  const { onChange: _onChange, ...rest } = register(name);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selected = e.target.files?.[0];
@@ -54,11 +52,19 @@ export function FileField({
         <span className="mt-1 inline-flex items-center rounded-full bg-[#F6F8FB] px-4 py-2 text-xs font-medium text-ink">
           {file ? "Choose a different file" : "Choose file"}
         </span>
+        {/*
+          Deliberately NOT using react-hook-form's register()/ref here. RHF special-cases
+          type="file" inputs to read the live DOM `.files` on every trigger()/validate call,
+          which silently overrides whatever we set via setValue() below — that's what caused
+          "Upload your ID document" to fire even after a file was visibly selected (the DOM's
+          own .files had reverted to empty by the time Next was clicked). Driving this purely
+          through onChange + setValue/watch keeps one source of truth.
+        */}
         <input
           type="file"
           accept={accept}
+          name={name}
           onChange={handleChange}
-          {...rest}
           className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         />
       </div>
