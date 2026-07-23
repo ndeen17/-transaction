@@ -56,7 +56,20 @@ export function SignupWizard() {
     const stepKey = FORM_STEPS[step]?.key;
     if (stepKey) {
       const valid = await form.trigger(STEP_FIELDS[stepKey]);
-      if (!valid) return;
+      if (!valid) {
+        if (stepKey === "kyc") {
+          const raw = form.getValues("kyc.idDocument");
+          // TEMPORARY diagnostics — remove once the KYC-upload issue is confirmed fixed.
+          console.log("[debug] kyc validation failed", {
+            value: raw,
+            isFileInstance: raw instanceof File,
+            ctorName: (raw as { constructor?: { name?: string } } | undefined)?.constructor?.name,
+            typeofValue: typeof raw,
+            errors: form.formState.errors.kyc,
+          });
+        }
+        return;
+      }
     }
     setStep((s) => Math.min(s + 1, FORM_STEPS.length - 1));
   }
