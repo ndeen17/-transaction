@@ -12,44 +12,49 @@ import {
   ReceiptIcon,
   TransferIcon,
 } from "./icons";
+import { DASH_FOCUS_RING } from "./theme";
 
 interface Action {
   label: string;
+  description: string;
   Icon: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 const ACTIONS: Action[] = [
-  { label: "Wire Transfer", Icon: TransferIcon },
-  { label: "Local Transfer", Icon: TransferIcon },
-  { label: "Internal Transfer", Icon: TransferIcon },
-  { label: "Buy Crypto", Icon: CryptoIcon },
-  { label: "Pay Bills", Icon: ReceiptIcon },
-  { label: "Add Beneficiary", Icon: PersonPlusIcon },
-  { label: "Card Deposit", Icon: CardIcon },
-  { label: "Crypto Deposit", Icon: CryptoIcon },
-  { label: "Check Deposit", Icon: CheckDocumentIcon },
-  { label: "Savings Statement", Icon: ListIcon },
-  { label: "Checking Statement", Icon: ListIcon },
-  { label: "Alerts", Icon: BellIcon },
-  { label: "Loans", Icon: CashIcon },
-  { label: "Investments", Icon: ChartBarIcon },
-  { label: "Support", Icon: ChatIcon },
+  { label: "Wire Transfer", description: "Send money internationally", Icon: TransferIcon },
+  { label: "Local Transfer", description: "Transfer within your country", Icon: TransferIcon },
+  { label: "Internal Transfer", description: "Move money between your accounts", Icon: TransferIcon },
+  { label: "Buy Crypto", description: "Purchase digital assets", Icon: CryptoIcon },
+  { label: "Pay Bills", description: "Utilities and subscriptions", Icon: ReceiptIcon },
+  { label: "Add Beneficiary", description: "Manage saved recipients", Icon: PersonPlusIcon },
+  { label: "Card Deposit", description: "Add funds with a debit card", Icon: CardIcon },
+  { label: "Crypto Deposit", description: "Fund your account with crypto", Icon: CryptoIcon },
+  { label: "Check Deposit", description: "Deposit a check remotely", Icon: CheckDocumentIcon },
+  { label: "Savings Statement", description: "View your savings history", Icon: ListIcon },
+  { label: "Checking Statement", description: "View your checking history", Icon: ListIcon },
+  { label: "Alerts", description: "Manage account notifications", Icon: BellIcon },
+  { label: "Loans", description: "Apply for financing", Icon: CashIcon },
+  { label: "Investments", description: "Grow your portfolio", Icon: ChartBarIcon },
+  { label: "Support", description: "Get help from our team", Icon: ChatIcon },
 ];
 
 export function QuickActions({ onSelect }: { onSelect: (label: string) => void }) {
   return (
-    <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:gap-x-4 md:grid-cols-4 lg:grid-cols-5">
-      {ACTIONS.map(({ label, Icon }) => (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {ACTIONS.map(({ label, description, Icon }) => (
         <button
           key={label}
           type="button"
           onClick={() => onSelect(label)}
-          className="flex flex-col items-center gap-2 text-center"
+          className={`group flex items-center gap-3.5 rounded-2xl border border-[#E5E7EB] bg-white p-4 text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#BFDBFE] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] active:translate-y-0 active:scale-[0.99] ${DASH_FOCUS_RING}`}
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-[0_10px_20px_-10px_rgba(47,111,238,0.6)] transition-transform active:scale-95 sm:h-14 sm:w-14">
-            <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-badge-bg text-blue-600 transition-colors duration-200 group-hover:bg-blue-600 group-hover:text-white">
+            <Icon className="h-5 w-5" />
           </span>
-          <span className="text-[11px] font-medium leading-tight text-ink sm:text-xs">{label}</span>
+          <span className="min-w-0">
+            <span className="block truncate text-sm font-medium text-[#111827]">{label}</span>
+            <span className="mt-0.5 block truncate text-xs text-[#6B7280]">{description}</span>
+          </span>
         </button>
       ))}
     </div>

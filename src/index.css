@@ -17,6 +17,18 @@
   --color-negative-1: #f5943d;
   --color-negative-2: #f2555a;
 
+  /* Dashboard-scoped design tokens (app shell, not the marketing site) */
+  --color-dash-bg: #f8fafc;
+  --color-dash-text: #111827;
+  --color-dash-text-secondary: #6b7280;
+  --color-dash-border: #e5e7eb;
+  --color-dash-success: #16a34a;
+  --color-dash-success-bg: #f0fdf4;
+  --color-dash-warning: #b45309;
+  --color-dash-warning-bg: #fffbeb;
+  --color-dash-danger: #dc2626;
+  --color-dash-danger-bg: #fef2f2;
+
   --animate-float-a: float-a 4s ease-in-out infinite;
   --animate-float-b: float-b 4.6s ease-in-out infinite;
 }

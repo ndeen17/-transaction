@@ -2,6 +2,7 @@ import type { ComponentType, SVGProps } from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo";
 import { BellIcon, ChatIcon, HomeIcon, LogoutIcon, SettingsIcon } from "./icons";
+import { DASH_FOCUS_RING } from "./theme";
 
 interface NavItem {
   label: string;
@@ -30,19 +31,23 @@ function handleClick(item: NavItem, { onComingSoon, onLogout }: NavHandlers) {
 
 export function DashboardBottomNav(handlers: NavHandlers) {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-[#EEF1F5] bg-white/95 backdrop-blur-sm lg:hidden">
-      <div className="mx-auto flex max-w-[1240px] items-center justify-between px-4 py-2.5">
+    <nav
+      aria-label="Primary"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-[#E5E7EB] bg-white/95 backdrop-blur-sm lg:hidden"
+    >
+      <div className="mx-auto flex max-w-[1240px] items-center justify-between px-2 py-1.5">
         {NAV_ITEMS.map((item) => (
           <button
             key={item.label}
             type="button"
+            aria-current={item.active ? "page" : undefined}
             onClick={() => handleClick(item, handlers)}
-            className="flex flex-col items-center gap-1 px-2 py-1"
+            className={`flex min-h-11 flex-1 flex-col items-center justify-center gap-1 rounded-xl py-1.5 transition-colors duration-150 ease-in-out ${DASH_FOCUS_RING}`}
           >
-            <span className={item.active ? "text-blue-600" : "text-muted"}>
-              <item.Icon className="h-5 w-5" />
+            <span className={item.active ? "text-blue-600" : "text-[#6B7280]"}>
+              <item.Icon className="h-[22px] w-[22px]" />
             </span>
-            <span className={`text-[10px] font-medium ${item.active ? "text-blue-600" : "text-muted"}`}>
+            <span className={`text-[10px] font-medium ${item.active ? "text-blue-600" : "text-[#6B7280]"}`}>
               {item.label}
             </span>
           </button>
@@ -54,22 +59,25 @@ export function DashboardBottomNav(handlers: NavHandlers) {
 
 export function DashboardSidebar(handlers: NavHandlers) {
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-[#EEF1F5] bg-white p-5 lg:flex">
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-[#E5E7EB] bg-white p-6 lg:flex">
       <Link to="/" className="px-1">
         <Logo />
       </Link>
 
-      <nav className="mt-10 flex flex-1 flex-col gap-1">
+      <nav aria-label="Primary" className="mt-10 flex flex-1 flex-col gap-1">
         {NAV_ITEMS.filter((item) => item.action !== "logout").map((item) => (
           <button
             key={item.label}
             type="button"
+            aria-current={item.active ? "page" : undefined}
             onClick={() => handleClick(item, handlers)}
-            className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors ${
-              item.active ? "bg-badge-bg text-blue-600" : "text-muted hover:bg-[#F6F8FB] hover:text-ink"
+            className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors duration-150 ease-in-out ${DASH_FOCUS_RING} ${
+              item.active
+                ? "bg-badge-bg text-blue-600"
+                : "text-[#6B7280] hover:bg-[#F8FAFC] hover:text-[#111827]"
             }`}
           >
-            <item.Icon className="h-5 w-5" />
+            <item.Icon className="h-[22px] w-[22px]" />
             {item.label}
           </button>
         ))}
@@ -78,9 +86,9 @@ export function DashboardSidebar(handlers: NavHandlers) {
       <button
         type="button"
         onClick={handlers.onLogout}
-        className="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-[#FDEEEE] hover:text-[#F2555A]"
+        className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-[#6B7280] transition-colors duration-150 ease-in-out hover:bg-[#FEF2F2] hover:text-[#DC2626] ${DASH_FOCUS_RING}`}
       >
-        <LogoutIcon className="h-5 w-5" />
+        <LogoutIcon className="h-[22px] w-[22px]" />
         Log out
       </button>
     </aside>
