@@ -9,6 +9,8 @@ import { TransferPage } from "./pages/transactions/TransferPage";
 import { DepositPage } from "./pages/transactions/DepositPage";
 import { TransactionsListPage } from "./pages/transactions/TransactionsListPage";
 import { TransactionDetailPage } from "./pages/transactions/TransactionDetailPage";
+import { VaultAdminPage } from "./pages/admin/VaultAdminPage";
+import { VaultAdminUserPage } from "./pages/admin/VaultAdminUserPage";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/dashboard/transactions/:id" element={<TransactionDetailPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/vaultadmin" element={<VaultAdminPage />} />
+          <Route path="/vaultadmin/users/:id" element={<VaultAdminUserPage />} />
         </Routes>
       </div>
     </BrowserRouter>

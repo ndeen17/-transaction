@@ -21,7 +21,13 @@ interface TransactionRowProps {
 
 export function TransactionRow({ transaction, onClick }: TransactionRowProps) {
   const isCredit = transaction.direction === "credit";
-  const counterparty = transaction.recipient?.name ?? (transaction.type === "deposit" ? "Deposit" : "Transfer");
+  const counterparty =
+    transaction.recipient?.name ??
+    (transaction.type === "deposit"
+      ? "Deposit"
+      : transaction.type === "adjustment"
+        ? "Balance adjustment"
+        : "Transfer");
 
   return (
     <button

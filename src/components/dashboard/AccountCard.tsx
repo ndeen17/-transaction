@@ -6,14 +6,16 @@ import { CopyIcon, EyeIcon, EyeOffIcon } from "./icons";
 interface AccountCardProps {
   accountType: string;
   status: string;
+  kycReviewStatus: string;
   account: AccountSummary;
 }
 
-export function AccountCard({ accountType, status, account }: AccountCardProps) {
+export function AccountCard({ accountType, status, kycReviewStatus, account }: AccountCardProps) {
   const [balanceVisible, setBalanceVisible] = useState(true);
   const [copied, setCopied] = useState(false);
 
   const isActive = status === "active";
+  const isVerified = kycReviewStatus === "approved";
 
   async function handleCopy() {
     try {
@@ -38,7 +40,7 @@ export function AccountCard({ accountType, status, account }: AccountCardProps) 
       </svg>
 
       <div className="relative flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <span className="text-[13px] font-medium uppercase tracking-[0.08em] text-white/70">
             {accountType === "savings" ? "Savings" : "Current"}
           </span>
@@ -49,6 +51,14 @@ export function AccountCard({ accountType, status, account }: AccountCardProps) 
           >
             <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-emerald-400" : "bg-white/60"}`} />
             {isActive ? "Active" : "Pending"}
+          </span>
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${
+              isVerified ? "bg-white/20 text-white" : "bg-white/15 text-white/85"
+            }`}
+          >
+            <span className={`h-1.5 w-1.5 rounded-full ${isVerified ? "bg-emerald-400" : "bg-[#FBBF24]"}`} />
+            {isVerified ? "Verified" : "Unverified"}
           </span>
         </div>
         <button

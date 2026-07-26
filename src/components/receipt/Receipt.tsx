@@ -48,7 +48,16 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
           label="Date"
           value={createdAt.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}
         />
-        <Row label="Type" value={transaction.type === "transfer" ? "Transfer" : "Deposit"} />
+        <Row
+          label="Type"
+          value={
+            transaction.type === "transfer"
+              ? "Transfer"
+              : transaction.type === "deposit"
+                ? "Deposit"
+                : "Balance adjustment"
+          }
+        />
         <Row label="From" value={`${accountHolderName} (${maskAccountNumber(accountNumber)})`} />
         {transaction.recipient && (
           <>

@@ -82,7 +82,12 @@ export function DashboardPage() {
         <DashboardTopbar firstName={user.firstName} onComingSoon={handleComingSoon} />
 
         <div className="mt-8 sm:mt-10">
-          <AccountCard accountType={user.accountType} status={user.status} account={user.account} />
+          <AccountCard
+            accountType={user.accountType}
+            status={user.status}
+            kycReviewStatus={user.kycReviewStatus}
+            account={user.account}
+          />
         </div>
 
         {needsVerification && (

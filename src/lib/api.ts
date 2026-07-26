@@ -152,7 +152,7 @@ export interface TransactionRecipient {
 export interface TransactionSummary {
   id: string;
   reference: string;
-  type: "transfer" | "deposit";
+  type: "transfer" | "deposit" | "adjustment";
   direction: "debit" | "credit";
   status: "completed" | "failed";
   simulated: boolean;
@@ -218,4 +218,118 @@ export function getTransaction(token: string, id: string) {
   return request<TransactionSummary>(`/transactions/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+}
+
+// ---- Admin (/vaultadmin) ----
+
+export function adminLogin(password: string) {
+  return request<{ token: string }>("/admin/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
+}
+
+export interface AdminUserListItem {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  loginId: string;
+  accountType: string;
+  status: string;
+  kycReviewStatus: string;
+  balance: number;
+  currency: string;
+  createdAt: string;
+}
+
+export interface AdminUserListResult {
+  items: AdminUserListItem[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface AdminListUsersParams {
+  status?: string;
+  kycStatus?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+}
+
+export function adminListUsers(token: string, params: AdminListUsersParams = {}) {
+  const query = new URLSearchParams();
+  if (params.status) query.set("status", params.status);
+  if (params.kycStatus) query.set("kycStatus", params.kycStatus);
+  if (params.search) query.set("search", params.search);
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<AdminUserListResult>(`/admin/users${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export interface AdminUserDetail {
+  id: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  gender: string;
+  nationality: string;
+  email: string;
+  phone: string;
+  address: {
+    line1: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  loginId: string;
+  accountType: string;
+  status: string;
+  kyc: {
+    idType: string;
+    idNumber: string;
+    reviewStatus: string;
+    documentUrl: string;
+    documentMimeType?: string;
+  };
+  account: AccountSummary;
+  createdAt: string;
+}
+
+export function adminGetUser(token: string, id: string) {
+  return request<AdminUserDetail>(`/admin/users/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminApproveKyc(token: string, id: string) {
+  return request<{ kycReviewStatus: string }>(`/admin/users/${id}/kyc/approve`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export interface AdminBalanceAdjustmentPayload {
+  direction: "credit" | "debit";
+  amount: number;
+  note?: string;
+}
+
+export function adminAdjustBalance(token: string, id: string, payload: AdminBalanceAdjustmentPayload) {
+  return request<{ balance: number; transaction: TransactionSummary }>(
+    `/admin/users/${id}/balance-adjustment`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    },
+  );
 }
