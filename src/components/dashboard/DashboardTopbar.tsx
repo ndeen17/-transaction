@@ -5,6 +5,7 @@ import { DASH_FOCUS_RING } from "./theme";
 
 interface DashboardTopbarProps {
   firstName: string;
+  avatarUrl?: string;
   onComingSoon: (label: string) => void;
 }
 
@@ -15,7 +16,7 @@ function getGreeting(): string {
   return "Good evening";
 }
 
-export function DashboardTopbar({ firstName, onComingSoon }: DashboardTopbarProps) {
+export function DashboardTopbar({ firstName, avatarUrl, onComingSoon }: DashboardTopbarProps) {
   const initial = firstName.charAt(0).toUpperCase();
 
   return (
@@ -42,9 +43,19 @@ export function DashboardTopbar({ firstName, onComingSoon }: DashboardTopbarProp
         >
           <BellIcon className="h-5 w-5" />
         </button>
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.1)]">
-          {initial}
-        </span>
+        <Link
+          to="/dashboard/settings"
+          aria-label="Settings"
+          className={`flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full ${DASH_FOCUS_RING}`}
+        >
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <span className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.1)]">
+              {initial}
+            </span>
+          )}
+        </Link>
       </div>
     </div>
   );

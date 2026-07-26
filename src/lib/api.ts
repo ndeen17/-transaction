@@ -85,6 +85,7 @@ export interface UserSummary {
   status: string;
   kycReviewStatus: string;
   hasPin: boolean;
+  avatarUrl?: string;
   account: AccountSummary;
 }
 
@@ -355,4 +356,24 @@ export function adminAdjustBalance(token: string, id: string, payload: AdminBala
       body: JSON.stringify(payload),
     },
   );
+}
+
+// ---- Account settings ----
+
+export function uploadProfileImage(token: string, file: File) {
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  return request<UserSummary>("/account/profile-image", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+}
+
+export function removeProfileImage(token: string) {
+  return request<UserSummary>("/account/profile-image", {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }

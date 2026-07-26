@@ -286,3 +286,22 @@ export function CheckCircleIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function CameraIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 8.5h3l1.5-2h7l1.5 2h3v11H4z" {...stroke} />
+      <circle cx="12" cy="14" r="3.3" {...stroke} />
+    </svg>
+  );
+}
+
+export function TrashIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 7h14M9.5 7V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2" {...stroke} />
+      <path d="M6.5 7 7.3 19a1.5 1.5 0 0 0 1.5 1.4h6.4a1.5 1.5 0 0 0 1.5-1.4L17.5 7" {...stroke} />
+      <path d="M10 11v6M14 11v6" {...stroke} />
+    </svg>
+  );
+}

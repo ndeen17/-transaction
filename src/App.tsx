@@ -4,6 +4,7 @@ import { SignupWizard } from "./pages/signup/SignupWizard";
 import { LoginPage } from "./pages/LoginPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import { SettingsPage } from "./pages/SettingsPage";
 import { TermsPage } from "./pages/TermsPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { TransferPage } from "./pages/transactions/TransferPage";
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/settings" element={<SettingsPage />} />
           <Route path="/dashboard/send" element={<TransferPage />} />
           <Route path="/dashboard/deposit" element={<DepositPage />} />
           <Route path="/dashboard/transactions" element={<TransactionsListPage />} />
