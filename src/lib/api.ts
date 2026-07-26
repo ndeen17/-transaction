@@ -117,6 +117,29 @@ export function login(loginId: string, password: string) {
   });
 }
 
+export function requestPasswordReset(loginId: string) {
+  return request<{ message: string }>("/auth/password-reset/request", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ loginId }),
+  });
+}
+
+export interface ConfirmPasswordResetPayload {
+  loginId: string;
+  code: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export function confirmPasswordReset(payload: ConfirmPasswordResetPayload) {
+  return request<VerifyOtpResult>("/auth/password-reset/confirm", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
 export function fetchMe(token: string) {
   return request<UserSummary>("/auth/me", {
     headers: { Authorization: `Bearer ${token}` },
