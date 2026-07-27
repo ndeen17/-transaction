@@ -69,12 +69,6 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
         {transaction.narration && <Row label="Narration" value={transaction.narration} />}
         <Row label="Balance after" value={formatCurrency(transaction.balanceAfter, transaction.currency)} />
       </div>
-
-      <div className="mt-6 border-t border-[#E5E7EB] pt-4 text-center">
-        <p className="text-[11px] leading-relaxed text-[#9CA3AF]">
-          This is a simulated transaction for demonstration purposes only. No real funds were moved.
-        </p>
-      </div>
     </div>
   );
 });

@@ -11,7 +11,7 @@ interface Action {
 }
 
 const ACTIONS: Action[] = [
-  { label: "Wire Transfer", description: "Send money abroad", Icon: TransferIcon },
+  { label: "Transfer", description: "Send money abroad", Icon: TransferIcon },
   { label: "Card Deposit", description: "Fund with a debit card", Icon: CardIcon, to: "/dashboard/deposit" },
   { label: "Crypto Deposit", description: "Fund with crypto", Icon: CryptoIcon },
 ];

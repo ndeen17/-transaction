@@ -5,16 +5,14 @@ import { CopyIcon, EyeIcon, EyeOffIcon } from "./icons";
 
 interface AccountCardProps {
   accountType: string;
-  status: string;
   kycReviewStatus: string;
   account: AccountSummary;
 }
 
-export function AccountCard({ accountType, status, kycReviewStatus, account }: AccountCardProps) {
+export function AccountCard({ accountType, kycReviewStatus, account }: AccountCardProps) {
   const [balanceVisible, setBalanceVisible] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  const isActive = status === "active";
   const isVerified = kycReviewStatus === "approved";
 
   async function handleCopy() {
@@ -28,9 +26,14 @@ export function AccountCard({ accountType, status, kycReviewStatus, account }: A
   }
 
   return (
-    <div className="relative overflow-hidden rounded-[28px] bg-[radial-gradient(120%_140%_at_15%_0%,#6EA8FA_0%,#3D75E8_45%,#1741B0_100%)] p-6 text-white shadow-[0_20px_50px_-16px_rgba(23,65,176,0.5)] sm:p-8">
-      {/* Soft glass light sweep */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.28)_0%,rgba(255,255,255,0.06)_35%,transparent_55%)]" />
+    <div className="relative overflow-hidden rounded-[28px] bg-[linear-gradient(135deg,#3D75E8_0%,#1E40AF_55%,#12296B_100%)] p-6 text-white shadow-[0_20px_50px_-16px_rgba(23,65,176,0.5)] sm:p-8">
+      {/* Offset brand mark, bleeding off the top-right edge as a subtle watermark */}
+      <img
+        src="/logo-mark.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 object-contain opacity-[0.14] sm:h-48 sm:w-48"
+      />
       {/* Subtle grain texture for a premium, non-flat surface */}
       <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05] mix-blend-overlay" aria-hidden>
         <filter id="dash-grain">
@@ -43,14 +46,6 @@ export function AccountCard({ accountType, status, kycReviewStatus, account }: A
         <div className="flex flex-wrap items-center gap-2.5">
           <span className="text-[13px] font-medium uppercase tracking-[0.08em] text-white/70">
             {accountType === "savings" ? "Savings" : "Current"}
-          </span>
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${
-              isActive ? "bg-white/20 text-white" : "bg-white/15 text-white/85"
-            }`}
-          >
-            <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-emerald-400" : "bg-white/60"}`} />
-            {isActive ? "Active" : "Pending"}
           </span>
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${
@@ -95,14 +90,14 @@ export function AccountCard({ accountType, status, kycReviewStatus, account }: A
         </button>
       </div>
 
-      <div className="relative mt-5 grid grid-cols-2 gap-4 border-t border-white/15 pt-5">
+      <div className="relative mt-5 grid grid-cols-2 divide-x divide-white/15 border-t border-white/15 pt-5">
         <div>
           <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-white/60">Total credit</p>
           <p className="mt-1.5 text-sm font-semibold tabular-nums text-emerald-300">
             +{formatCurrency(account.totalCredit, account.currency)}
           </p>
         </div>
-        <div>
+        <div className="pl-4">
           <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-white/60">Total debit</p>
           <p className="mt-1.5 text-sm font-semibold tabular-nums text-white/90">
             −{formatCurrency(account.totalDebit, account.currency)}

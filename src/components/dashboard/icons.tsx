@@ -6,7 +6,8 @@ const stroke = { stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round
 export function TransferIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props}>
-      <path d="M7 17 17 7M17 7H9M17 7v8" {...stroke} />
+      <path d="M4 8h14.5M15.5 4.5 19 8l-3.5 3.5" {...stroke} />
+      <path d="M20 16H5.5M8.5 12.5 5 16l3.5 3.5" {...stroke} />
     </svg>
   );
 }
