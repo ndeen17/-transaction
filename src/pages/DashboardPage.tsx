@@ -91,26 +91,17 @@ export function DashboardPage() {
         </div>
 
         {needsVerification && (
-          <div className={`${DASH_CARD} mt-6 flex flex-col gap-4 p-5 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:p-6`}>
-            <div className="flex items-start gap-3.5">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFFBEB] text-[#B45309]">
-                <ShieldIcon className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-[#111827]">Complete your identity verification</p>
-                <p className="mt-1 text-sm leading-relaxed text-[#6B7280]">
-                  Your account is under review. Some features remain unavailable until
-                  verification is complete.
-                </p>
-              </div>
+          <div className={`${DASH_CARD} mt-6 flex items-start gap-3.5 p-5 sm:mt-8 sm:p-6`}>
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFFBEB] text-[#B45309]">
+              <ShieldIcon className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-[#111827]">Complete your identity verification</p>
+              <p className="mt-1 text-sm leading-relaxed text-[#6B7280]">
+                Your account is under review. Some features remain unavailable until
+                verification is complete.
+              </p>
             </div>
-            <DashboardButton
-              variant="secondary"
-              onClick={() => handleComingSoon("Verification status")}
-              className="shrink-0"
-            >
-              Continue Verification
-            </DashboardButton>
           </div>
         )}
 

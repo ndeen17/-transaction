@@ -1,7 +1,7 @@
 import type { ComponentType, SVGProps } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../Logo";
-import { BellIcon, ChatIcon, HomeIcon, LogoutIcon, SettingsIcon } from "./icons";
+import { ChatIcon, HomeIcon, LogoutIcon, SettingsIcon } from "./icons";
 import { DASH_FOCUS_RING } from "./theme";
 
 interface NavItem {
@@ -13,7 +13,6 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Settings", Icon: SettingsIcon, action: "link", to: "/dashboard/settings" },
-  { label: "Notifications", Icon: BellIcon, action: "comingSoon" },
   { label: "Home", Icon: HomeIcon, action: "link", to: "/dashboard" },
   { label: "Support", Icon: ChatIcon, action: "comingSoon" },
   { label: "Logout", Icon: LogoutIcon, action: "logout" },
