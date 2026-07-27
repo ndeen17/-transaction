@@ -1,18 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
 import { Link } from "react-router-dom";
-import {
-  BellIcon,
-  CardIcon,
-  CashIcon,
-  ChartBarIcon,
-  ChatIcon,
-  CheckDocumentIcon,
-  CryptoIcon,
-  ListIcon,
-  PersonPlusIcon,
-  ReceiptIcon,
-  TransferIcon,
-} from "./icons";
+import { CardIcon, CryptoIcon, TransferIcon } from "./icons";
 import { DASH_FOCUS_RING } from "./theme";
 
 interface Action {
@@ -24,20 +12,8 @@ interface Action {
 
 const ACTIONS: Action[] = [
   { label: "Wire Transfer", description: "Send money abroad", Icon: TransferIcon },
-  { label: "Local Transfer", description: "Domestic transfers", Icon: TransferIcon, to: "/dashboard/send" },
-  { label: "Internal Transfer", description: "Between your accounts", Icon: TransferIcon },
-  { label: "Buy Crypto", description: "Purchase digital assets", Icon: CryptoIcon },
-  { label: "Pay Bills", description: "Utilities & subscriptions", Icon: ReceiptIcon },
-  { label: "Add Beneficiary", description: "Manage saved recipients", Icon: PersonPlusIcon },
   { label: "Card Deposit", description: "Fund with a debit card", Icon: CardIcon, to: "/dashboard/deposit" },
   { label: "Crypto Deposit", description: "Fund with crypto", Icon: CryptoIcon },
-  { label: "Check Deposit", description: "Deposit a check remotely", Icon: CheckDocumentIcon },
-  { label: "Savings Statement", description: "View savings history", Icon: ListIcon },
-  { label: "Checking Statement", description: "View checking history", Icon: ListIcon },
-  { label: "Alerts", description: "Notification settings", Icon: BellIcon },
-  { label: "Loans", description: "Apply for financing", Icon: CashIcon },
-  { label: "Investments", description: "Grow your portfolio", Icon: ChartBarIcon },
-  { label: "Support", description: "Get help from our team", Icon: ChatIcon },
 ];
 
 export function QuickActions({ onSelect }: { onSelect: (label: string) => void }) {
