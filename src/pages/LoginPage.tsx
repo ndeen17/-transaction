@@ -23,6 +23,10 @@ export function LoginPage() {
       localStorage.setItem("authUser", JSON.stringify(result.user));
       navigate("/dashboard");
     } catch (err) {
+      if (err instanceof ApiRequestError && err.code === "ACCOUNT_SUSPENDED") {
+        navigate("/account-suspended");
+        return;
+      }
       setError(err instanceof ApiRequestError ? err.message : "Something went wrong");
     } finally {
       setSubmitting(false);

@@ -341,6 +341,20 @@ export function adminApproveKyc(token: string, id: string) {
   });
 }
 
+export function adminSuspendUser(token: string, id: string) {
+  return request<{ status: string }>(`/admin/users/${id}/suspend`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminUnsuspendUser(token: string, id: string) {
+  return request<{ status: string }>(`/admin/users/${id}/unsuspend`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 export interface AdminBalanceAdjustmentPayload {
   direction: "credit" | "debit";
   amount: number;

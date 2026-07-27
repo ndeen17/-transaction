@@ -29,6 +29,10 @@ export function DashboardPage() {
 
     fetchMe(token)
       .then((fresh) => {
+        if (fresh.status === "suspended") {
+          navigate("/account-suspended");
+          return;
+        }
         setUser(fresh);
         localStorage.setItem("authUser", JSON.stringify(fresh));
       })

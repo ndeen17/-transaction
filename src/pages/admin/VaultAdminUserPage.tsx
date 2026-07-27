@@ -9,6 +9,8 @@ import {
   adminAdjustBalance,
   adminApproveKyc,
   adminGetUser,
+  adminSuspendUser,
+  adminUnsuspendUser,
   type AdminUserDetail,
 } from "../../lib/api";
 import { formatCurrency } from "../../lib/format";
@@ -16,6 +18,13 @@ import { formatCurrency } from "../../lib/format";
 function kycBadgeClass(status: string) {
   if (status === "approved") return "bg-[#F0FDF4] text-[#16A34A]";
   if (status === "rejected") return "bg-[#FEF2F2] text-[#DC2626]";
+  return "bg-[#FFFBEB] text-[#B45309]";
+}
+
+function statusBadgeClass(status: string) {
+  if (status === "active") return "bg-[#F0FDF4] text-[#16A34A]";
+  if (status === "suspended") return "bg-[#FEF2F2] text-[#DC2626]";
+  if (status === "closed") return "bg-[#F3F4F6] text-[#6B7280]";
   return "bg-[#FFFBEB] text-[#B45309]";
 }
 
@@ -29,6 +38,10 @@ export function VaultAdminUserPage() {
   const [approving, setApproving] = useState(false);
   const [approveError, setApproveError] = useState<string | null>(null);
   const [approveNotice, setApproveNotice] = useState<string | null>(null);
+
+  const [suspending, setSuspending] = useState(false);
+  const [suspendError, setSuspendError] = useState<string | null>(null);
+  const [suspendNotice, setSuspendNotice] = useState<string | null>(null);
 
   const [direction, setDirection] = useState<"credit" | "debit">("credit");
   const [amount, setAmount] = useState("");
@@ -62,6 +75,28 @@ export function VaultAdminUserPage() {
       setApproveError(err instanceof ApiRequestError ? err.message : "Something went wrong.");
     } finally {
       setApproving(false);
+    }
+  }
+
+  async function handleSuspendToggle() {
+    if (!token || !id || !user) return;
+    const suspended = user.status === "suspended";
+
+    setSuspending(true);
+    setSuspendError(null);
+    setSuspendNotice(null);
+    try {
+      const result = suspended ? await adminUnsuspendUser(token, id) : await adminSuspendUser(token, id);
+      setUser((prev) => (prev ? { ...prev, status: result.status } : prev));
+      setSuspendNotice(
+        suspended
+          ? "Unsuspended — the customer has been emailed and can log in again."
+          : "Suspended — the customer has been emailed and can no longer log in.",
+      );
+    } catch (err) {
+      setSuspendError(err instanceof ApiRequestError ? err.message : "Something went wrong.");
+    } finally {
+      setSuspending(false);
     }
   }
 
@@ -113,9 +148,43 @@ export function VaultAdminUserPage() {
                   {user.email} · {user.loginId}
                 </p>
               </div>
-              <span className={`rounded-full px-3 py-1 text-xs font-medium ${kycBadgeClass(user.kyc.reviewStatus)}`}>
-                {user.kyc.reviewStatus}
-              </span>
+              <div className="flex shrink-0 gap-2">
+                <span className={`rounded-full px-3 py-1 text-xs font-medium ${statusBadgeClass(user.status)}`}>
+                  {user.status.replace("_", " ")}
+                </span>
+                <span className={`rounded-full px-3 py-1 text-xs font-medium ${kycBadgeClass(user.kyc.reviewStatus)}`}>
+                  {user.kyc.reviewStatus}
+                </span>
+              </div>
+            </div>
+
+            <div className={`${DASH_CARD} mt-5 p-5 sm:p-6`}>
+              <h2 className="text-[15px] font-semibold text-[#111827]">Account access</h2>
+              <p className="mt-1 text-sm text-[#6B7280]">
+                {user.status === "suspended"
+                  ? "This account is suspended and can't log in."
+                  : "Suspending blocks this account from logging in until reinstated."}
+              </p>
+
+              {suspendError && (
+                <p className="mt-4 rounded-xl bg-[#FEF2F2] px-4 py-3 text-sm text-[#DC2626]">{suspendError}</p>
+              )}
+              {suspendNotice && (
+                <p className="mt-4 rounded-xl bg-[#F0FDF4] px-4 py-3 text-sm text-[#16A34A]">{suspendNotice}</p>
+              )}
+
+              <DashboardButton
+                variant={user.status === "suspended" ? "primary" : "danger"}
+                onClick={handleSuspendToggle}
+                disabled={suspending}
+                className="mt-4"
+              >
+                {suspending
+                  ? "Working…"
+                  : user.status === "suspended"
+                    ? "Unsuspend account"
+                    : "Suspend account"}
+              </DashboardButton>
             </div>
 
             <div className={`${DASH_CARD} mt-5 p-5 sm:p-6`}>

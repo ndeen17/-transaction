@@ -3,6 +3,7 @@ import { LandingPage } from "./pages/LandingPage";
 import { SignupWizard } from "./pages/signup/SignupWizard";
 import { LoginPage } from "./pages/LoginPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
+import { AccountSuspendedPage } from "./pages/AccountSuspendedPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { TermsPage } from "./pages/TermsPage";
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signup" element={<SignupWizard />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/account-suspended" element={<AccountSuspendedPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/dashboard/settings" element={<SettingsPage />} />
           <Route path="/dashboard/send" element={<TransferPage />} />

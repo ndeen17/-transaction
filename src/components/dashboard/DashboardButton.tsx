@@ -2,13 +2,15 @@ import type { ButtonHTMLAttributes } from "react";
 import { DASH_FOCUS_RING } from "./theme";
 
 interface DashboardButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "danger";
 }
 
 const VARIANT_CLASSES: Record<NonNullable<DashboardButtonProps["variant"]>, string> = {
   primary: "bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.98] disabled:opacity-60",
   secondary:
     "border border-[#E5E7EB] bg-white text-[#111827] hover:bg-[#F8FAFC] active:scale-[0.98]",
+  danger:
+    "border border-[#FCA5A5] bg-white text-[#DC2626] hover:bg-[#FEF2F2] active:scale-[0.98] disabled:opacity-60",
 };
 
 export function DashboardButton({
