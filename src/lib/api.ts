@@ -173,10 +173,18 @@ export interface TransactionRecipient {
   accountNumber: string;
 }
 
+export interface TransactionCrypto {
+  symbol: string;
+  network?: string;
+  amountCrypto: number;
+  address: string;
+  txHash?: string;
+}
+
 export interface TransactionSummary {
   id: string;
   reference: string;
-  type: "transfer" | "deposit" | "adjustment";
+  type: "transfer" | "deposit" | "adjustment" | "crypto_deposit";
   direction: "debit" | "credit";
   status: "completed" | "failed";
   simulated: boolean;
@@ -185,6 +193,7 @@ export interface TransactionSummary {
   narration?: string;
   balanceAfter: number;
   recipient?: TransactionRecipient;
+  crypto?: TransactionCrypto;
   failureReason?: string;
   createdAt: string;
 }
@@ -389,5 +398,225 @@ export function removeProfileImage(token: string) {
   return request<UserSummary>("/account/profile-image", {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ---- Crypto deposits (client) ----
+
+export interface CryptoAsset {
+  id: string;
+  symbol: string;
+  name: string;
+  network?: string;
+  address: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export function listCryptoAssets(token: string) {
+  return request<CryptoAsset[]>("/crypto/assets", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export type CryptoDepositStatus = "pending" | "accepted" | "rejected" | "crediting" | "credited";
+
+export interface CryptoDepositSummary {
+  id: string;
+  symbol: string;
+  network?: string;
+  address: string;
+  amountCrypto: number;
+  amount: number;
+  currency: string;
+  txHash?: string;
+  reference: string;
+  status: CryptoDepositStatus;
+  adminNote?: string;
+  reviewedAt?: string;
+  scheduledCreditAt?: string;
+  creditedAt?: string;
+  transactionId?: string;
+  createdAt: string;
+}
+
+export interface SubmitCryptoDepositPayload {
+  assetId: string;
+  amountCrypto: number;
+  amount: number;
+  txHash?: string;
+  pin: string;
+}
+
+export function submitCryptoDeposit(token: string, payload: SubmitCryptoDepositPayload) {
+  return request<CryptoDepositSummary>("/crypto/deposits", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface CryptoDepositListResult {
+  items: CryptoDepositSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function listMyCryptoDeposits(token: string, params: { page?: number; limit?: number } = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<CryptoDepositListResult>(`/crypto/deposits${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function getMyCryptoDeposit(token: string, id: string) {
+  return request<CryptoDepositSummary>(`/crypto/deposits/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ---- Notifications ----
+
+export interface NotificationItem {
+  id: string;
+  type: "crypto_deposit_accepted" | "crypto_deposit_rejected" | "crypto_deposit_credited";
+  title: string;
+  body: string;
+  link?: string;
+  read: boolean;
+  createdAt: string;
+}
+
+export interface NotificationListResult {
+  items: NotificationItem[];
+  total: number;
+  unreadCount: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function listNotifications(token: string, params: { page?: number; limit?: number } = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<NotificationListResult>(`/notifications${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function markNotificationRead(token: string, id: string) {
+  return request<NotificationItem>(`/notifications/${id}/read`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function markAllNotificationsRead(token: string) {
+  return request<{ message: string }>("/notifications/read-all", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ---- Admin: crypto assets ----
+
+export interface AdminCryptoAssetPayload {
+  symbol: string;
+  name: string;
+  network?: string;
+  address: string;
+}
+
+export function adminListCryptoAssets(token: string) {
+  return request<CryptoAsset[]>("/admin/crypto-assets", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminCreateCryptoAsset(token: string, payload: AdminCryptoAssetPayload) {
+  return request<CryptoAsset>("/admin/crypto-assets", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export function adminUpdateCryptoAsset(token: string, id: string, payload: AdminCryptoAssetPayload) {
+  return request<CryptoAsset>(`/admin/crypto-assets/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export function adminDeleteCryptoAsset(token: string, id: string) {
+  return request<{ message: string }>(`/admin/crypto-assets/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ---- Admin: crypto deposits ----
+
+export interface AdminCryptoDepositSummary extends CryptoDepositSummary {
+  submitter: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    loginId: string;
+  } | null;
+}
+
+export interface AdminCryptoDepositListResult {
+  items: AdminCryptoDepositSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function adminListCryptoDeposits(
+  token: string,
+  params: { status?: string; page?: number; limit?: number } = {},
+) {
+  const query = new URLSearchParams();
+  if (params.status) query.set("status", params.status);
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<AdminCryptoDepositListResult>(`/admin/crypto-deposits${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminGetCryptoDeposit(token: string, id: string) {
+  return request<AdminCryptoDepositSummary>(`/admin/crypto-deposits/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminAcceptCryptoDeposit(token: string, id: string) {
+  return request<{ status: string; scheduledCreditAt?: string }>(`/admin/crypto-deposits/${id}/accept`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminRejectCryptoDeposit(token: string, id: string, note?: string) {
+  return request<{ status: string }>(`/admin/crypto-deposits/${id}/reject`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ note }),
   });
 }

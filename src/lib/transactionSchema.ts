@@ -28,6 +28,25 @@ export const depositDetailsSchema = z.object({
 
 export type DepositDetailsValues = z.infer<typeof depositDetailsSchema>;
 
+// Display-only, not minor units — crypto amounts need more precision than 2 decimal places,
+// so this doesn't reuse amountField's whole-cents check.
+const cryptoAmountField = z
+  .string()
+  .trim()
+  .refine((v) => v.length > 0 && !Number.isNaN(Number(v)), "Enter the amount you sent")
+  .transform((v) => Number(v))
+  .refine((v) => v > 0, "Enter an amount greater than 0")
+  .refine((v) => v <= 1_000_000, "Amount is too large");
+
+export const cryptoDepositDetailsSchema = z.object({
+  assetId: z.string().trim().min(1, "Choose a crypto asset"),
+  amountCrypto: cryptoAmountField,
+  amount: amountField,
+  txHash: z.string().trim().max(200).optional().or(z.literal("")),
+});
+
+export type CryptoDepositDetailsValues = z.infer<typeof cryptoDepositDetailsSchema>;
+
 const pinDigits = z.string().trim().regex(/^[0-9]{4,6}$/, "PIN must be 4 to 6 digits");
 
 export const pinSetupSchema = z
