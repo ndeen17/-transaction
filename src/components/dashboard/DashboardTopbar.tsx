@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo";
-import { BellIcon } from "./icons";
+import { NotificationBell } from "./NotificationBell";
 import { DASH_FOCUS_RING } from "./theme";
 
 interface DashboardTopbarProps {
   firstName: string;
   avatarUrl?: string;
-  onComingSoon: (label: string) => void;
+  token: string;
 }
 
 function getGreeting(): string {
@@ -16,7 +16,7 @@ function getGreeting(): string {
   return "Good evening";
 }
 
-export function DashboardTopbar({ firstName, avatarUrl, onComingSoon }: DashboardTopbarProps) {
+export function DashboardTopbar({ firstName, avatarUrl, token }: DashboardTopbarProps) {
   const initial = firstName.charAt(0).toUpperCase();
 
   return (
@@ -35,14 +35,7 @@ export function DashboardTopbar({ firstName, avatarUrl, onComingSoon }: Dashboar
       </div>
 
       <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => onComingSoon("Notifications")}
-          aria-label="Notifications"
-          className={`relative flex h-11 w-11 items-center justify-center rounded-full border border-[#E5E7EB] text-[#111827] transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#BFDBFE] hover:bg-[#F8FAFC] ${DASH_FOCUS_RING}`}
-        >
-          <BellIcon className="h-5 w-5" />
-        </button>
+        <NotificationBell token={token} />
         <Link
           to="/dashboard/settings"
           aria-label="Settings"

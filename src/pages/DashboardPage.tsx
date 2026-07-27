@@ -83,7 +83,7 @@ export function DashboardPage() {
       <DashboardSidebar onComingSoon={handleComingSoon} onLogout={handleLogout} />
 
       <div className="mx-auto max-w-[900px] px-4 pb-6 pt-5 sm:px-6 sm:pt-8 lg:px-12 lg:pt-12">
-        <DashboardTopbar firstName={user.firstName} avatarUrl={user.avatarUrl} onComingSoon={handleComingSoon} />
+        <DashboardTopbar firstName={user.firstName} avatarUrl={user.avatarUrl} token={token} />
 
         <div className="mt-8 sm:mt-10">
           <AccountCard

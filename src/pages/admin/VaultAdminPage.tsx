@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { DashboardButton } from "../../components/dashboard/DashboardButton";
 import { dashInputClass } from "../../components/dashboard/inputStyles";
 import { DASH_CARD } from "../../components/dashboard/theme";
+import { VaultAdminNav } from "./VaultAdminNav";
 import {
   ApiRequestError,
   adminListUsers,
@@ -118,6 +119,8 @@ export function VaultAdminPage() {
             Log out
           </button>
         </div>
+
+        <VaultAdminNav />
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-2">

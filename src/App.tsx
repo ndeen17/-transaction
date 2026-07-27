@@ -12,8 +12,14 @@ import { TransferPage } from "./pages/transactions/TransferPage";
 import { DepositPage } from "./pages/transactions/DepositPage";
 import { TransactionsListPage } from "./pages/transactions/TransactionsListPage";
 import { TransactionDetailPage } from "./pages/transactions/TransactionDetailPage";
+import { CryptoDepositPage } from "./pages/transactions/CryptoDepositPage";
+import { CryptoDepositsListPage } from "./pages/transactions/CryptoDepositsListPage";
+import { CryptoDepositDetailPage } from "./pages/transactions/CryptoDepositDetailPage";
 import { VaultAdminPage } from "./pages/admin/VaultAdminPage";
 import { VaultAdminUserPage } from "./pages/admin/VaultAdminUserPage";
+import { VaultAdminCryptoAssetsPage } from "./pages/admin/VaultAdminCryptoAssetsPage";
+import { VaultAdminCryptoDepositsPage } from "./pages/admin/VaultAdminCryptoDepositsPage";
+import { VaultAdminCryptoDepositDetailPage } from "./pages/admin/VaultAdminCryptoDepositDetailPage";
 
 function App() {
   return (
@@ -31,10 +37,16 @@ function App() {
           <Route path="/dashboard/deposit" element={<DepositPage />} />
           <Route path="/dashboard/transactions" element={<TransactionsListPage />} />
           <Route path="/dashboard/transactions/:id" element={<TransactionDetailPage />} />
+          <Route path="/dashboard/crypto-deposit" element={<CryptoDepositPage />} />
+          <Route path="/dashboard/crypto-deposits" element={<CryptoDepositsListPage />} />
+          <Route path="/dashboard/crypto-deposits/:id" element={<CryptoDepositDetailPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/vaultadmin" element={<VaultAdminPage />} />
           <Route path="/vaultadmin/users/:id" element={<VaultAdminUserPage />} />
+          <Route path="/vaultadmin/crypto-assets" element={<VaultAdminCryptoAssetsPage />} />
+          <Route path="/vaultadmin/crypto-deposits" element={<VaultAdminCryptoDepositsPage />} />
+          <Route path="/vaultadmin/crypto-deposits/:id" element={<VaultAdminCryptoDepositDetailPage />} />
         </Routes>
       </div>
     </BrowserRouter>
