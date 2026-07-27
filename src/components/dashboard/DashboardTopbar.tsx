@@ -22,7 +22,7 @@ export function DashboardTopbar({ firstName, avatarUrl, onComingSoon }: Dashboar
   return (
     <div className="flex items-center justify-between">
       <div className="lg:hidden">
-        <Link to="/">
+        <Link to="/dashboard">
           <Logo />
         </Link>
       </div>
