@@ -167,6 +167,14 @@ export function setupPin(token: string, payload: SetupPinPayload) {
   });
 }
 
+export function resetPin(token: string, payload: SetupPinPayload) {
+  return request<{ hasPin: boolean }>("/pin/reset", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
 export interface TransactionRecipient {
   name: string;
   bankName: string;
