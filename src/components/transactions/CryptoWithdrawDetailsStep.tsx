@@ -53,7 +53,7 @@ export function CryptoWithdrawDetailsStep({ token, defaultValues, onContinue }: 
 
   useEffect(() => {
     listCryptoAssets(token)
-      .then(setAssets)
+      .then((fetched) => setAssets(fetched.slice(0, 3)))
       .catch((err) =>
         setLoadError(err instanceof ApiRequestError ? err.message : "Couldn't load crypto currencies."),
       )
@@ -95,8 +95,8 @@ export function CryptoWithdrawDetailsStep({ token, defaultValues, onContinue }: 
                 }`}
               >
                 <span>
-                  <span className="block text-sm font-semibold text-[#111827]">
-                    {asset.symbol} <span className="font-normal text-[#6B7280]">— {asset.name}</span>
+                  <span className="block text-lg font-bold text-[#111827]">
+                    {asset.symbol} <span className="text-sm font-normal text-[#6B7280]">— {asset.name}</span>
                   </span>
                 </span>
                 <span

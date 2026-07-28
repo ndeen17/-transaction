@@ -53,7 +53,7 @@ export function CryptoDetailsStep({ token, defaultValues, onContinue }: CryptoDe
 
   useEffect(() => {
     listCryptoAssets(token)
-      .then(setAssets)
+      .then((fetched) => setAssets(fetched.slice(0, 3)))
       .catch((err) =>
         setLoadError(err instanceof ApiRequestError ? err.message : "Couldn't load crypto currencies."),
       )
@@ -108,8 +108,8 @@ export function CryptoDetailsStep({ token, defaultValues, onContinue }: CryptoDe
                   className="flex w-full items-center justify-between gap-3 text-left"
                 >
                   <span>
-                    <span className="block text-sm font-semibold text-[#111827]">
-                      {asset.symbol} <span className="font-normal text-[#6B7280]">— {asset.name}</span>
+                    <span className="block text-lg font-bold text-[#111827]">
+                      {asset.symbol} <span className="text-sm font-normal text-[#6B7280]">— {asset.name}</span>
                     </span>
                     {asset.network && <span className="mt-0.5 block text-xs text-[#6B7280]">{asset.network}</span>}
                   </span>
