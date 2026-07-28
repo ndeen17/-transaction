@@ -31,7 +31,11 @@ export function TransactionRow({ transaction, onClick }: TransactionRowProps) {
           ? `Crypto Deposit${transaction.crypto ? ` (${transaction.crypto.symbol})` : ""}`
           : transaction.type === "bank_deposit"
             ? "Bank Deposit"
-            : "Transfer");
+            : transaction.type === "crypto_withdrawal"
+              ? `Crypto Withdrawal${transaction.cryptoWithdrawal ? ` (${transaction.cryptoWithdrawal.symbol})` : ""}`
+              : transaction.type === "bank_withdrawal"
+                ? "Bank Withdrawal"
+                : "Transfer");
 
   return (
     <button

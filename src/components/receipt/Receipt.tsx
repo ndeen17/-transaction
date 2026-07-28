@@ -59,7 +59,11 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
                   ? "Crypto Deposit"
                   : transaction.type === "bank_deposit"
                     ? "Bank Deposit"
-                    : "Balance adjustment"
+                    : transaction.type === "crypto_withdrawal"
+                      ? "Crypto Withdrawal"
+                      : transaction.type === "bank_withdrawal"
+                        ? "Bank Withdrawal"
+                        : "Balance adjustment"
           }
         />
         <Row label="From" value={`${accountHolderName} (${maskAccountNumber(accountNumber)})`} />
@@ -92,6 +96,33 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
             <Row label="Account number" value={transaction.bankDeposit.accountNumber} mono />
             {transaction.bankDeposit.routingNumber && (
               <Row label="Routing number" value={transaction.bankDeposit.routingNumber} mono />
+            )}
+          </>
+        )}
+        {transaction.cryptoWithdrawal && (
+          <>
+            <Row
+              label="Asset"
+              value={
+                transaction.cryptoWithdrawal.network
+                  ? `${transaction.cryptoWithdrawal.symbol} (${transaction.cryptoWithdrawal.network})`
+                  : transaction.cryptoWithdrawal.symbol
+              }
+            />
+            <Row
+              label="Amount"
+              value={`${transaction.cryptoWithdrawal.amountCrypto} ${transaction.cryptoWithdrawal.symbol}`}
+            />
+            <Row label="Wallet address" value={transaction.cryptoWithdrawal.walletAddress} mono />
+          </>
+        )}
+        {transaction.bankWithdrawal && (
+          <>
+            <Row label="Bank" value={transaction.bankWithdrawal.bankName} />
+            <Row label="Account name" value={transaction.bankWithdrawal.accountName} />
+            <Row label="Account number" value={transaction.bankWithdrawal.accountNumber} mono />
+            {transaction.bankWithdrawal.routingNumber && (
+              <Row label="Routing number" value={transaction.bankWithdrawal.routingNumber} mono />
             )}
           </>
         )}

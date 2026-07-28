@@ -19,6 +19,12 @@ import { CryptoDepositDetailPage } from "./pages/transactions/CryptoDepositDetai
 import { BankDepositPage } from "./pages/transactions/BankDepositPage";
 import { BankDepositsListPage } from "./pages/transactions/BankDepositsListPage";
 import { BankDepositDetailPage } from "./pages/transactions/BankDepositDetailPage";
+import { CryptoWithdrawPage } from "./pages/transactions/CryptoWithdrawPage";
+import { CryptoWithdrawalsListPage } from "./pages/transactions/CryptoWithdrawalsListPage";
+import { CryptoWithdrawalDetailPage } from "./pages/transactions/CryptoWithdrawalDetailPage";
+import { BankWithdrawPage } from "./pages/transactions/BankWithdrawPage";
+import { BankWithdrawalsListPage } from "./pages/transactions/BankWithdrawalsListPage";
+import { BankWithdrawalDetailPage } from "./pages/transactions/BankWithdrawalDetailPage";
 import { VaultAdminPage } from "./pages/admin/VaultAdminPage";
 import { VaultAdminUserPage } from "./pages/admin/VaultAdminUserPage";
 import { VaultAdminCryptoAssetsPage } from "./pages/admin/VaultAdminCryptoAssetsPage";
@@ -27,6 +33,10 @@ import { VaultAdminCryptoDepositDetailPage } from "./pages/admin/VaultAdminCrypt
 import { VaultAdminBankAccountsPage } from "./pages/admin/VaultAdminBankAccountsPage";
 import { VaultAdminBankDepositsPage } from "./pages/admin/VaultAdminBankDepositsPage";
 import { VaultAdminBankDepositDetailPage } from "./pages/admin/VaultAdminBankDepositDetailPage";
+import { VaultAdminCryptoWithdrawalsPage } from "./pages/admin/VaultAdminCryptoWithdrawalsPage";
+import { VaultAdminCryptoWithdrawalDetailPage } from "./pages/admin/VaultAdminCryptoWithdrawalDetailPage";
+import { VaultAdminBankWithdrawalsPage } from "./pages/admin/VaultAdminBankWithdrawalsPage";
+import { VaultAdminBankWithdrawalDetailPage } from "./pages/admin/VaultAdminBankWithdrawalDetailPage";
 
 function App() {
   return (
@@ -51,6 +61,12 @@ function App() {
           <Route path="/dashboard/bank-deposit" element={<BankDepositPage />} />
           <Route path="/dashboard/bank-deposits" element={<BankDepositsListPage />} />
           <Route path="/dashboard/bank-deposits/:id" element={<BankDepositDetailPage />} />
+          <Route path="/dashboard/crypto-withdraw" element={<CryptoWithdrawPage />} />
+          <Route path="/dashboard/crypto-withdrawals" element={<CryptoWithdrawalsListPage />} />
+          <Route path="/dashboard/crypto-withdrawals/:id" element={<CryptoWithdrawalDetailPage />} />
+          <Route path="/dashboard/bank-withdraw" element={<BankWithdrawPage />} />
+          <Route path="/dashboard/bank-withdrawals" element={<BankWithdrawalsListPage />} />
+          <Route path="/dashboard/bank-withdrawals/:id" element={<BankWithdrawalDetailPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/vaultadmin" element={<VaultAdminPage />} />
@@ -61,6 +77,10 @@ function App() {
           <Route path="/vaultadmin/bank-accounts" element={<VaultAdminBankAccountsPage />} />
           <Route path="/vaultadmin/bank-deposits" element={<VaultAdminBankDepositsPage />} />
           <Route path="/vaultadmin/bank-deposits/:id" element={<VaultAdminBankDepositDetailPage />} />
+          <Route path="/vaultadmin/crypto-withdrawals" element={<VaultAdminCryptoWithdrawalsPage />} />
+          <Route path="/vaultadmin/crypto-withdrawals/:id" element={<VaultAdminCryptoWithdrawalDetailPage />} />
+          <Route path="/vaultadmin/bank-withdrawals" element={<VaultAdminBankWithdrawalsPage />} />
+          <Route path="/vaultadmin/bank-withdrawals/:id" element={<VaultAdminBankWithdrawalDetailPage />} />
         </Routes>
       </div>
     </BrowserRouter>

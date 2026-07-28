@@ -196,10 +196,31 @@ export interface TransactionBankDeposit {
   routingNumber?: string;
 }
 
+export interface TransactionCryptoWithdrawal {
+  symbol: string;
+  network?: string;
+  amountCrypto: number;
+  walletAddress: string;
+}
+
+export interface TransactionBankWithdrawal {
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  routingNumber?: string;
+}
+
 export interface TransactionSummary {
   id: string;
   reference: string;
-  type: "transfer" | "deposit" | "adjustment" | "crypto_deposit" | "bank_deposit";
+  type:
+    | "transfer"
+    | "deposit"
+    | "adjustment"
+    | "crypto_deposit"
+    | "bank_deposit"
+    | "crypto_withdrawal"
+    | "bank_withdrawal";
   direction: "debit" | "credit";
   // "pending"/"rejected" never come from the API directly (real Transaction docs are only
   // ever "completed"/"failed") — they're used for client-side-only synthetic activity items
@@ -213,6 +234,8 @@ export interface TransactionSummary {
   recipient?: TransactionRecipient;
   crypto?: TransactionCrypto;
   bankDeposit?: TransactionBankDeposit;
+  cryptoWithdrawal?: TransactionCryptoWithdrawal;
+  bankWithdrawal?: TransactionBankWithdrawal;
   failureReason?: string;
   createdAt: string;
 }
@@ -579,6 +602,135 @@ export function getMyBankDeposit(token: string, id: string) {
   });
 }
 
+// ---- Withdrawals (client) ----
+
+export type WithdrawalStatus = "processing" | "completed" | "declined" | "reversing";
+
+export interface CryptoWithdrawalSummary {
+  id: string;
+  symbol: string;
+  amountCrypto: number;
+  priceUsdAtSubmission: number;
+  walletAddress: string;
+  network?: string;
+  amount: number;
+  currency: string;
+  reference: string;
+  status: WithdrawalStatus;
+  adminNote?: string;
+  reviewedAt?: string;
+  declinedAt?: string;
+  transactionId: string;
+  refundTransactionId?: string;
+  createdAt: string;
+}
+
+export interface SubmitCryptoWithdrawalPayload {
+  assetId: string;
+  amountCrypto: number;
+  walletAddress: string;
+  network?: string;
+  pin: string;
+}
+
+export interface SubmitWithdrawalResult<T> {
+  request: T;
+  transaction: TransactionSummary;
+}
+
+export function submitCryptoWithdrawal(token: string, payload: SubmitCryptoWithdrawalPayload) {
+  return request<SubmitWithdrawalResult<CryptoWithdrawalSummary>>("/crypto-withdrawals", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface CryptoWithdrawalListResult {
+  items: CryptoWithdrawalSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function listMyCryptoWithdrawals(token: string, params: { page?: number; limit?: number } = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<CryptoWithdrawalListResult>(`/crypto-withdrawals${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function getMyCryptoWithdrawal(token: string, id: string) {
+  return request<CryptoWithdrawalSummary>(`/crypto-withdrawals/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export interface BankWithdrawalSummary {
+  id: string;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  routingNumber?: string;
+  amount: number;
+  currency: string;
+  reference: string;
+  status: WithdrawalStatus;
+  adminNote?: string;
+  reviewedAt?: string;
+  declinedAt?: string;
+  transactionId: string;
+  refundTransactionId?: string;
+  createdAt: string;
+}
+
+export interface SubmitBankWithdrawalPayload {
+  amount: number;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  routingNumber?: string;
+  pin: string;
+}
+
+export function submitBankWithdrawal(token: string, payload: SubmitBankWithdrawalPayload) {
+  return request<SubmitWithdrawalResult<BankWithdrawalSummary>>("/bank-withdrawals", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface BankWithdrawalListResult {
+  items: BankWithdrawalSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function listMyBankWithdrawals(token: string, params: { page?: number; limit?: number } = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<BankWithdrawalListResult>(`/bank-withdrawals${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function getMyBankWithdrawal(token: string, id: string) {
+  return request<BankWithdrawalSummary>(`/bank-withdrawals/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 // ---- Notifications ----
 
 export interface NotificationItem {
@@ -591,7 +743,13 @@ export interface NotificationItem {
     | "bank_deposit_initiated"
     | "bank_deposit_approved"
     | "bank_deposit_rejected"
-    | "balance_adjustment";
+    | "balance_adjustment"
+    | "crypto_withdrawal_processing"
+    | "crypto_withdrawal_completed"
+    | "crypto_withdrawal_declined"
+    | "bank_withdrawal_processing"
+    | "bank_withdrawal_completed"
+    | "bank_withdrawal_declined";
   title: string;
   body: string;
   link?: string;
@@ -831,6 +989,118 @@ export function adminAcceptBankDeposit(token: string, id: string) {
 
 export function adminRejectBankDeposit(token: string, id: string, note?: string) {
   return request<{ status: string }>(`/admin/bank-deposits/${id}/reject`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ note }),
+  });
+}
+
+// ---- Admin: crypto withdrawals ----
+
+export interface AdminCryptoWithdrawalSummary extends CryptoWithdrawalSummary {
+  submitter: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    loginId: string;
+  } | null;
+}
+
+export interface AdminCryptoWithdrawalListResult {
+  items: AdminCryptoWithdrawalSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function adminListCryptoWithdrawals(
+  token: string,
+  params: { status?: string; page?: number; limit?: number } = {},
+) {
+  const query = new URLSearchParams();
+  if (params.status) query.set("status", params.status);
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<AdminCryptoWithdrawalListResult>(`/admin/crypto-withdrawals${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminGetCryptoWithdrawal(token: string, id: string) {
+  return request<AdminCryptoWithdrawalSummary>(`/admin/crypto-withdrawals/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminAcceptCryptoWithdrawal(token: string, id: string) {
+  return request<{ status: string }>(`/admin/crypto-withdrawals/${id}/accept`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminDeclineCryptoWithdrawal(token: string, id: string, note?: string) {
+  return request<{ status: string }>(`/admin/crypto-withdrawals/${id}/decline`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ note }),
+  });
+}
+
+// ---- Admin: bank withdrawals ----
+
+export interface AdminBankWithdrawalSummary extends BankWithdrawalSummary {
+  submitter: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    loginId: string;
+  } | null;
+}
+
+export interface AdminBankWithdrawalListResult {
+  items: AdminBankWithdrawalSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function adminListBankWithdrawals(
+  token: string,
+  params: { status?: string; page?: number; limit?: number } = {},
+) {
+  const query = new URLSearchParams();
+  if (params.status) query.set("status", params.status);
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<AdminBankWithdrawalListResult>(`/admin/bank-withdrawals${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminGetBankWithdrawal(token: string, id: string) {
+  return request<AdminBankWithdrawalSummary>(`/admin/bank-withdrawals/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminAcceptBankWithdrawal(token: string, id: string) {
+  return request<{ status: string }>(`/admin/bank-withdrawals/${id}/accept`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminDeclineBankWithdrawal(token: string, id: string, note?: string) {
+  return request<{ status: string }>(`/admin/bank-withdrawals/${id}/decline`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     body: JSON.stringify({ note }),

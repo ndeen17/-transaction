@@ -54,6 +54,25 @@ export const bankDepositDetailsSchema = z.object({
 
 export type BankDepositDetailsValues = z.infer<typeof bankDepositDetailsSchema>;
 
+export const cryptoWithdrawDetailsSchema = z.object({
+  assetId: z.string().trim().min(1, "Choose a crypto asset"),
+  amountCrypto: cryptoAmountField,
+  walletAddress: z.string().trim().min(1, "Required").max(200),
+  network: z.string().trim().max(40).optional().or(z.literal("")),
+});
+
+export type CryptoWithdrawDetailsValues = z.infer<typeof cryptoWithdrawDetailsSchema>;
+
+export const bankWithdrawDetailsSchema = z.object({
+  amount: amountField,
+  bankName: z.string().trim().min(1, "Required").max(80),
+  accountName: z.string().trim().min(1, "Required").max(120),
+  accountNumber: z.string().trim().min(1, "Required").max(40),
+  routingNumber: z.string().trim().max(40).optional().or(z.literal("")),
+});
+
+export type BankWithdrawDetailsValues = z.infer<typeof bankWithdrawDetailsSchema>;
+
 const pinDigits = z.string().trim().regex(/^[0-9]{4,6}$/, "PIN must be 4 to 6 digits");
 
 export const pinSetupSchema = z

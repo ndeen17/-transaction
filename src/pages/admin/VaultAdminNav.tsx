@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { adminListBankDeposits, adminListCryptoDeposits } from "../../lib/api";
+import {
+  adminListBankDeposits,
+  adminListBankWithdrawals,
+  adminListCryptoDeposits,
+  adminListCryptoWithdrawals,
+} from "../../lib/api";
 
 const TABS = [
   { label: "Users", to: "/vaultadmin" },
@@ -8,12 +13,16 @@ const TABS = [
   { label: "Crypto Deposits", to: "/vaultadmin/crypto-deposits" },
   { label: "Bank Accounts", to: "/vaultadmin/bank-accounts" },
   { label: "Bank Deposits", to: "/vaultadmin/bank-deposits" },
+  { label: "Crypto Withdrawals", to: "/vaultadmin/crypto-withdrawals" },
+  { label: "Bank Withdrawals", to: "/vaultadmin/bank-withdrawals" },
 ] as const;
 
 export function VaultAdminNav() {
   const { pathname } = useLocation();
   const [cryptoPendingCount, setCryptoPendingCount] = useState(0);
   const [bankPendingCount, setBankPendingCount] = useState(0);
+  const [cryptoWithdrawalCount, setCryptoWithdrawalCount] = useState(0);
+  const [bankWithdrawalCount, setBankWithdrawalCount] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
@@ -23,6 +32,12 @@ export function VaultAdminNav() {
       .catch(() => {});
     adminListBankDeposits(token, { status: "pending", limit: 1 })
       .then((result) => setBankPendingCount(result.total))
+      .catch(() => {});
+    adminListCryptoWithdrawals(token, { status: "processing", limit: 1 })
+      .then((result) => setCryptoWithdrawalCount(result.total))
+      .catch(() => {});
+    adminListBankWithdrawals(token, { status: "processing", limit: 1 })
+      .then((result) => setBankWithdrawalCount(result.total))
       .catch(() => {});
   }, []);
 
@@ -35,7 +50,11 @@ export function VaultAdminNav() {
             ? cryptoPendingCount
             : tab.to === "/vaultadmin/bank-deposits"
               ? bankPendingCount
-              : 0;
+              : tab.to === "/vaultadmin/crypto-withdrawals"
+                ? cryptoWithdrawalCount
+                : tab.to === "/vaultadmin/bank-withdrawals"
+                  ? bankWithdrawalCount
+                  : 0;
         return (
           <Link
             key={tab.to}
