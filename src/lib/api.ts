@@ -70,10 +70,19 @@ export function submitSignup(values: SignupFormValues) {
 
 export interface AccountSummary {
   accountNumber: string;
+  routingNumber: string;
   balance: number;
   currency: string;
   totalCredit: number;
   totalDebit: number;
+}
+
+export interface UserAddress {
+  line1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
 }
 
 export interface UserSummary {
@@ -86,6 +95,7 @@ export interface UserSummary {
   kycReviewStatus: string;
   hasPin: boolean;
   avatarUrl?: string;
+  address: UserAddress;
   account: AccountSummary;
 }
 

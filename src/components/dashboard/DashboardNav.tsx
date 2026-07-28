@@ -1,9 +1,10 @@
-import type { ComponentType, SVGProps } from "react";
+import { useState, type ComponentType, type SVGProps } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../Logo";
 import { openSupportChat } from "../../lib/supportChat";
 import { ArrowUpIcon, ChatIcon, HomeIcon, SettingsIcon } from "./icons";
 import { DASH_FOCUS_RING } from "./theme";
+import { TransferSheet } from "./TransferSheet";
 
 interface NavItem {
   label: string;
@@ -15,7 +16,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: "Settings", Icon: SettingsIcon, action: "link", to: "/dashboard/settings" },
   { label: "Home", Icon: HomeIcon, action: "link", to: "/dashboard" },
-  { label: "Transfer", Icon: ArrowUpIcon, action: "link", to: "/dashboard/bank-withdraw" },
+  { label: "Transfer", Icon: ArrowUpIcon, action: "link" },
   { label: "Support", Icon: ChatIcon, action: "openSupport" },
 ];
 
@@ -35,6 +36,7 @@ function isActive(item: NavItem, pathname: string): boolean {
 
 export function DashboardBottomNav(handlers: NavHandlers) {
   const { pathname } = useLocation();
+  const [transferOpen, setTransferOpen] = useState(false);
 
   return (
     <nav
@@ -47,17 +49,17 @@ export function DashboardBottomNav(handlers: NavHandlers) {
 
           if (item.label === "Transfer") {
             return (
-              <Link
+              <button
                 key={item.label}
-                to={item.to!}
-                aria-current={active ? "page" : undefined}
+                type="button"
+                onClick={() => setTransferOpen(true)}
                 className={`relative flex min-h-11 flex-1 flex-col items-center justify-center gap-1 rounded-xl py-1.5 ${DASH_FOCUS_RING}`}
               >
                 <span className="absolute -top-6 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white shadow-[0_8px_20px_rgba(37,99,235,0.4)] transition-transform duration-150 ease-in-out active:scale-95">
                   <item.Icon className="h-5 w-5" />
                 </span>
                 <span className="mt-6 text-[10px] font-medium text-blue-600">{item.label}</span>
-              </Link>
+              </button>
             );
           }
 
@@ -89,6 +91,8 @@ export function DashboardBottomNav(handlers: NavHandlers) {
           );
         })}
       </div>
+
+      <TransferSheet open={transferOpen} onClose={() => setTransferOpen(false)} />
     </nav>
   );
 }
