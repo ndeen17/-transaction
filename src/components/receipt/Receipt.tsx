@@ -57,7 +57,9 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
                 ? "Deposit"
                 : transaction.type === "crypto_deposit"
                   ? "Crypto Deposit"
-                  : "Balance adjustment"
+                  : transaction.type === "bank_deposit"
+                    ? "Bank Deposit"
+                    : "Balance adjustment"
           }
         />
         <Row label="From" value={`${accountHolderName} (${maskAccountNumber(accountNumber)})`} />
@@ -81,6 +83,16 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
             <Row label="Amount sent" value={`${transaction.crypto.amountCrypto} ${transaction.crypto.symbol}`} />
             <Row label="Address" value={transaction.crypto.address} mono />
             {transaction.crypto.txHash && <Row label="Transaction hash" value={transaction.crypto.txHash} mono />}
+          </>
+        )}
+        {transaction.bankDeposit && (
+          <>
+            <Row label="Bank" value={transaction.bankDeposit.bankName} />
+            <Row label="Account name" value={transaction.bankDeposit.accountName} />
+            <Row label="Account number" value={transaction.bankDeposit.accountNumber} mono />
+            {transaction.bankDeposit.routingNumber && (
+              <Row label="Routing number" value={transaction.bankDeposit.routingNumber} mono />
+            )}
           </>
         )}
         {transaction.narration && <Row label="Narration" value={transaction.narration} />}

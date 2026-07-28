@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
 import { Link } from "react-router-dom";
-import { CardIcon, CryptoIcon, TransferIcon } from "./icons";
+import { BankIcon, CryptoIcon, TransferIcon } from "./icons";
 import { DASH_FOCUS_RING } from "./theme";
 
 interface Action {
@@ -12,7 +12,7 @@ interface Action {
 
 const ACTIONS: Action[] = [
   { label: "Transfer", description: "Send money abroad", Icon: TransferIcon },
-  { label: "Card Deposit", description: "Fund with a debit card", Icon: CardIcon, to: "/dashboard/deposit" },
+  { label: "Bank Deposit", description: "Fund via bank transfer", Icon: BankIcon, to: "/dashboard/bank-deposit" },
   { label: "Crypto Deposit", description: "Fund with crypto", Icon: CryptoIcon, to: "/dashboard/crypto-deposit" },
 ];
 

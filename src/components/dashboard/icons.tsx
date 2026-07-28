@@ -54,6 +54,17 @@ export function CardIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function BankIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3.5 9.5 12 4l8.5 5.5" {...stroke} />
+      <path d="M4.5 9.5h15v1.5h-15z" {...stroke} />
+      <path d="M6 11v7M10 11v7M14 11v7M18 11v7" {...stroke} />
+      <path d="M3.5 20h17" {...stroke} />
+    </svg>
+  );
+}
+
 export function CheckDocumentIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props}>

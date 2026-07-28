@@ -181,10 +181,17 @@ export interface TransactionCrypto {
   txHash?: string;
 }
 
+export interface TransactionBankDeposit {
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  routingNumber?: string;
+}
+
 export interface TransactionSummary {
   id: string;
   reference: string;
-  type: "transfer" | "deposit" | "adjustment" | "crypto_deposit";
+  type: "transfer" | "deposit" | "adjustment" | "crypto_deposit" | "bank_deposit";
   direction: "debit" | "credit";
   status: "completed" | "failed";
   simulated: boolean;
@@ -194,6 +201,7 @@ export interface TransactionSummary {
   balanceAfter: number;
   recipient?: TransactionRecipient;
   crypto?: TransactionCrypto;
+  bankDeposit?: TransactionBankDeposit;
   failureReason?: string;
   createdAt: string;
 }
@@ -482,11 +490,95 @@ export function getMyCryptoDeposit(token: string, id: string) {
   });
 }
 
+// ---- Bank deposits (client) ----
+
+export interface BankAccount {
+  id: string;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  routingNumber?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export function listBankAccounts(token: string) {
+  return request<BankAccount[]>("/bank-accounts", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export type BankDepositStatus = "pending" | "rejected" | "crediting" | "credited";
+
+export interface BankDepositSummary {
+  id: string;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  routingNumber?: string;
+  amount: number;
+  currency: string;
+  senderReference?: string;
+  reference: string;
+  status: BankDepositStatus;
+  adminNote?: string;
+  reviewedAt?: string;
+  creditedAt?: string;
+  transactionId?: string;
+  createdAt: string;
+}
+
+export interface SubmitBankDepositPayload {
+  bankAccountId: string;
+  amount: number;
+  senderReference?: string;
+  pin: string;
+}
+
+export function submitBankDeposit(token: string, payload: SubmitBankDepositPayload) {
+  return request<BankDepositSummary>("/bank-deposits", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface BankDepositListResult {
+  items: BankDepositSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function listMyBankDeposits(token: string, params: { page?: number; limit?: number } = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<BankDepositListResult>(`/bank-deposits${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function getMyBankDeposit(token: string, id: string) {
+  return request<BankDepositSummary>(`/bank-deposits/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 // ---- Notifications ----
 
 export interface NotificationItem {
   id: string;
-  type: "crypto_deposit_accepted" | "crypto_deposit_rejected" | "crypto_deposit_credited";
+  type:
+    | "crypto_deposit_accepted"
+    | "crypto_deposit_rejected"
+    | "crypto_deposit_credited"
+    | "bank_deposit_initiated"
+    | "bank_deposit_approved"
+    | "bank_deposit_rejected";
   title: string;
   body: string;
   link?: string;
@@ -632,6 +724,100 @@ export function adminAcceptCryptoDeposit(token: string, id: string) {
 
 export function adminRejectCryptoDeposit(token: string, id: string, note?: string) {
   return request<{ status: string }>(`/admin/crypto-deposits/${id}/reject`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ note }),
+  });
+}
+
+// ---- Admin: bank accounts ----
+
+export interface AdminBankAccountPayload {
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  routingNumber?: string;
+}
+
+export function adminListBankAccounts(token: string) {
+  return request<BankAccount[]>("/admin/bank-accounts", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminCreateBankAccount(token: string, payload: AdminBankAccountPayload) {
+  return request<BankAccount>("/admin/bank-accounts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export function adminUpdateBankAccount(token: string, id: string, payload: AdminBankAccountPayload) {
+  return request<BankAccount>(`/admin/bank-accounts/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+}
+
+export function adminDeleteBankAccount(token: string, id: string) {
+  return request<{ message: string }>(`/admin/bank-accounts/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// ---- Admin: bank deposits ----
+
+export interface AdminBankDepositSummary extends BankDepositSummary {
+  submitter: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    loginId: string;
+  } | null;
+}
+
+export interface AdminBankDepositListResult {
+  items: AdminBankDepositSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export function adminListBankDeposits(
+  token: string,
+  params: { status?: string; page?: number; limit?: number } = {},
+) {
+  const query = new URLSearchParams();
+  if (params.status) query.set("status", params.status);
+  if (params.page) query.set("page", String(params.page));
+  if (params.limit) query.set("limit", String(params.limit));
+  const qs = query.toString();
+
+  return request<AdminBankDepositListResult>(`/admin/bank-deposits${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminGetBankDeposit(token: string, id: string) {
+  return request<AdminBankDepositSummary>(`/admin/bank-deposits/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminAcceptBankDeposit(token: string, id: string) {
+  return request<{ status: string }>(`/admin/bank-deposits/${id}/accept`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function adminRejectBankDeposit(token: string, id: string, note?: string) {
+  return request<{ status: string }>(`/admin/bank-deposits/${id}/reject`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     body: JSON.stringify({ note }),
