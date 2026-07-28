@@ -99,7 +99,7 @@ export function AccountCard({ accountType, kycReviewStatus, account }: AccountCa
         </div>
         <div className="pl-4">
           <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-white/60">Total debit</p>
-          <p className="mt-1.5 text-sm font-semibold tabular-nums text-white/90">
+          <p className="mt-1.5 text-sm font-semibold tabular-nums text-red-400">
             −{formatCurrency(account.totalDebit, account.currency)}
           </p>
         </div>

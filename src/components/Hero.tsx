@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRightIcon, PencilIcon } from "./icons";
+import { FlagEU, FlagJapan, FlagSouthAfrica, FlagUK } from "./flags";
 
 function ExchangeCard() {
   return (
@@ -60,68 +61,31 @@ function PromoCard() {
   );
 }
 
-function ChartCard() {
+const RATES: { Flag: typeof FlagUK; pair: string; rate: string }[] = [
+  { Flag: FlagUK, pair: "USD → GBP", rate: "0.75" },
+  { Flag: FlagEU, pair: "USD → EUR", rate: "0.87" },
+  { Flag: FlagJapan, pair: "USD → JPY", rate: "149.20" },
+  { Flag: FlagSouthAfrica, pair: "USD → ZAR", rate: "17.85" },
+];
+
+function RatesCard() {
   return (
     <div className="flex flex-1 flex-col rounded-[28px] border border-[#EEF1F5] bg-white p-6">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted">GBR (Pound)</p>
-        <div className="flex -space-x-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-ink text-[10px] font-medium text-white">
-            8
-          </span>
-          <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-blue-500 to-blue-700 text-[10px] font-medium text-white">
-            JP
-          </span>
-        </div>
-      </div>
-
-      <div className="mt-3 flex items-baseline gap-2">
-        <p className="text-2xl font-semibold text-ink">£112.00</p>
-      </div>
-      <div className="mt-1 flex items-center gap-1.5 text-xs">
-        <span className="flex items-center gap-0.5 font-medium text-positive">
-          <svg viewBox="0 0 10 10" className="h-2.5 w-2.5" fill="currentColor">
-            <path d="M5 1l4 6H1z" />
-          </svg>
-          4.2%
+        <p className="text-sm text-muted">Today's rates</p>
+        <span className="rounded-full bg-badge-bg px-2.5 py-1 text-[10px] font-medium text-badge-text">
+          Reference
         </span>
-        <span className="text-muted">142£</span>
       </div>
 
-      <div className="relative mt-4 flex-1">
-        <div className="pointer-events-none absolute left-[38%] top-0 -translate-x-1/2 rounded-lg bg-ink px-2.5 py-1 text-[10px] font-medium text-white">
-          4:00 am
-          <span className="absolute left-1/2 top-full h-1.5 w-1.5 -translate-x-1/2 rotate-45 bg-ink" />
-        </div>
-        <svg viewBox="0 0 220 90" className="mt-6 h-16 w-full" preserveAspectRatio="none">
-          <path
-            d="M0 55 C 14 60, 22 30, 36 34 S 58 66, 72 58 90 20 104 26 124 60 138 50 156 18 170 22 190 46 206 34 218 38 220 40"
-            fill="none"
-            stroke="#4F9BFF"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeDasharray="400"
-            className="animate-draw-line"
-          />
-          <circle
-            cx="84"
-            cy="34"
-            r="3.5"
-            fill="#0B1C3D"
-            className="animate-ping"
-            style={{ transformOrigin: "84px 34px" }}
-          />
-          <circle cx="84" cy="34" r="3.5" fill="#0B1C3D" />
-        </svg>
-      </div>
-
-      <div className="mt-2 flex justify-between text-[11px] text-muted">
-        <span>Dec</span>
-        <span>Jan</span>
-        <span>Feb</span>
-        <span>Mar</span>
-        <span className="font-semibold text-ink">Apr</span>
-        <span>May</span>
+      <div className="mt-4 flex-1 divide-y divide-[#F3F5F8]">
+        {RATES.map(({ Flag, pair, rate }) => (
+          <div key={pair} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+            <Flag className="h-7 w-7 shrink-0" />
+            <span className="flex-1 text-sm font-medium text-ink">{pair}</span>
+            <span className="text-sm font-semibold tabular-nums text-ink">{rate}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -166,7 +130,7 @@ export function Hero() {
       <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-3">
         <ExchangeCard />
         <PromoCard />
-        <ChartCard />
+        <RatesCard />
       </div>
     </div>
   );
