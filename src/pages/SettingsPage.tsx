@@ -164,6 +164,19 @@ export function SettingsPage() {
                 <dt className="text-xs text-[#6B7280]">Account number</dt>
                 <dd className="mt-0.5 text-sm text-[#111827]">{user.account.accountNumber}</dd>
               </div>
+              <div>
+                <dt className="text-xs text-[#6B7280]">Routing number</dt>
+                <dd className="mt-0.5 text-sm text-[#111827]">{user.account.routingNumber ?? "—"}</dd>
+              </div>
+              {user.address && (
+                <div className="sm:col-span-2">
+                  <dt className="text-xs text-[#6B7280]">Address</dt>
+                  <dd className="mt-0.5 text-sm text-[#111827]">
+                    {user.address.line1}, {user.address.city}, {user.address.state} {user.address.postalCode},{" "}
+                    {user.address.country}
+                  </dd>
+                </div>
+              )}
             </dl>
           </div>
         )}
