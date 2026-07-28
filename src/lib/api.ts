@@ -201,7 +201,10 @@ export interface TransactionSummary {
   reference: string;
   type: "transfer" | "deposit" | "adjustment" | "crypto_deposit" | "bank_deposit";
   direction: "debit" | "credit";
-  status: "completed" | "failed";
+  // "pending"/"rejected" never come from the API directly (real Transaction docs are only
+  // ever "completed"/"failed") — they're used for client-side-only synthetic activity items
+  // built from still-in-review deposit requests. See lib/activity.ts.
+  status: "completed" | "failed" | "pending" | "rejected";
   simulated: boolean;
   amount: number;
   currency: string;
@@ -581,12 +584,14 @@ export function getMyBankDeposit(token: string, id: string) {
 export interface NotificationItem {
   id: string;
   type:
+    | "crypto_deposit_initiated"
     | "crypto_deposit_accepted"
     | "crypto_deposit_rejected"
     | "crypto_deposit_credited"
     | "bank_deposit_initiated"
     | "bank_deposit_approved"
-    | "bank_deposit_rejected";
+    | "bank_deposit_rejected"
+    | "balance_adjustment";
   title: string;
   body: string;
   link?: string;

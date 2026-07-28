@@ -57,10 +57,20 @@ export function TransactionRow({ transaction, onClick }: TransactionRowProps) {
         </span>
         <span
           className={`mt-0.5 inline-block rounded-full px-2 py-0.5 text-[10px] font-medium ${
-            transaction.status === "completed" ? "bg-[#F0FDF4] text-[#16A34A]" : "bg-[#FEF2F2] text-[#DC2626]"
+            transaction.status === "completed"
+              ? "bg-[#F0FDF4] text-[#16A34A]"
+              : transaction.status === "pending"
+                ? "bg-[#FFFBEB] text-[#B45309]"
+                : "bg-[#FEF2F2] text-[#DC2626]"
           }`}
         >
-          {transaction.status === "completed" ? "Completed" : "Failed"}
+          {transaction.status === "completed"
+            ? "Completed"
+            : transaction.status === "pending"
+              ? "Pending"
+              : transaction.status === "rejected"
+                ? "Rejected"
+                : "Failed"}
         </span>
       </span>
     </button>

@@ -4,7 +4,7 @@ import { TransactionRow } from "./TransactionRow";
 
 interface RecentActivityProps {
   transactions: TransactionSummary[];
-  onSelect: (id: string) => void;
+  onSelect: (transaction: TransactionSummary) => void;
 }
 
 export function RecentActivity({ transactions, onSelect }: RecentActivityProps) {
@@ -12,7 +12,7 @@ export function RecentActivity({ transactions, onSelect }: RecentActivityProps) 
     <div>
       <div className="divide-y divide-[#E5E7EB] rounded-2xl border border-[#E5E7EB]">
         {transactions.map((tx) => (
-          <TransactionRow key={tx.id} transaction={tx} onClick={() => onSelect(tx.id)} />
+          <TransactionRow key={tx.id} transaction={tx} onClick={() => onSelect(tx)} />
         ))}
       </div>
       <div className="mt-3 text-right">

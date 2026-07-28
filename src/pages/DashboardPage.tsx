@@ -9,7 +9,18 @@ import { InboxIcon, PlusCircleIcon, ShieldIcon } from "../components/dashboard/i
 import { QuickActions } from "../components/dashboard/QuickActions";
 import { RecentActivity } from "../components/dashboard/RecentActivity";
 import { DASH_CARD } from "../components/dashboard/theme";
-import { ApiRequestError, fetchMe, listTransactions, type TransactionSummary, type UserSummary } from "../lib/api";
+import {
+  ApiRequestError,
+  fetchMe,
+  listMyBankDeposits,
+  listMyCryptoDeposits,
+  listTransactions,
+  type TransactionSummary,
+  type UserSummary,
+} from "../lib/api";
+import { activityHref, fromBankDeposit, fromCryptoDeposit } from "../lib/activity";
+
+const RECENT_ACTIVITY_LIMIT = 5;
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -45,9 +56,22 @@ export function DashboardPage() {
       })
       .finally(() => setLoading(false));
 
-    listTransactions(token, { page: 1, limit: 5 })
-      .then((result) => setTransactions(result.items))
-      .catch(() => {});
+    Promise.all([
+      listTransactions(token, { page: 1, limit: RECENT_ACTIVITY_LIMIT }).catch(() => ({ items: [] })),
+      listMyCryptoDeposits(token, { page: 1, limit: RECENT_ACTIVITY_LIMIT }).catch(() => ({ items: [] })),
+      listMyBankDeposits(token, { page: 1, limit: RECENT_ACTIVITY_LIMIT }).catch(() => ({ items: [] })),
+    ]).then(([txResult, cryptoResult, bankResult]) => {
+      const pendingCrypto = cryptoResult.items
+        .filter((d) => d.status !== "credited")
+        .map(fromCryptoDeposit);
+      const pendingBank = bankResult.items.filter((d) => d.status !== "credited").map(fromBankDeposit);
+
+      const merged = [...txResult.items, ...pendingCrypto, ...pendingBank]
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, RECENT_ACTIVITY_LIMIT);
+
+      setTransactions(merged);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -122,7 +146,7 @@ export function DashboardPage() {
             <div className="mt-6">
               <RecentActivity
                 transactions={transactions}
-                onSelect={(id) => navigate(`/dashboard/transactions/${id}`)}
+                onSelect={(tx) => navigate(activityHref(tx))}
               />
             </div>
           ) : hasZeroBalance ? (
@@ -135,11 +159,12 @@ export function DashboardPage() {
                 Make your first deposit to start using your account.
               </p>
               <DashboardButton
-                onClick={() => navigate("/dashboard/deposit")}
+                onClick={() => navigate("/dashboard/crypto-deposit")}
                 className="mt-5"
               >
-                Deposit Funds
+                Add deposit
               </DashboardButton>
+              <p className="mt-2 text-xs text-[#9CA3AF]">Add deposit with crypto</p>
             </div>
           ) : (
             <div className="mt-6 flex flex-col items-center rounded-2xl border border-dashed border-[#E5E7EB] px-6 py-10 text-center">
