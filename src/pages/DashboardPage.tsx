@@ -135,7 +135,7 @@ export function DashboardPage() {
         <div className={`${DASH_CARD} mt-6 p-5 sm:mt-8 sm:p-8`}>
           <h2 className="text-[15px] font-semibold text-[#111827]">Quick actions</h2>
           <div className="mt-5">
-            <QuickActions onSelect={handleComingSoon} />
+            <QuickActions />
           </div>
         </div>
 
