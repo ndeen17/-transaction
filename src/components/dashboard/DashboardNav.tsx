@@ -103,7 +103,7 @@ export function DashboardSidebar(handlers: NavHandlers) {
       </Link>
 
       <nav aria-label="Primary" className="mt-10 flex flex-1 flex-col gap-1">
-        {NAV_ITEMS.filter((item) => item.action !== "logout").map((item) => {
+        {NAV_ITEMS.filter((item) => item.action !== "logout" && item.label !== "Transfer").map((item) => {
           const active = isActive(item, pathname);
           const className = `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors duration-150 ease-in-out ${DASH_FOCUS_RING} ${
             active ? "bg-badge-bg text-blue-600" : "text-[#6B7280] hover:bg-[#F8FAFC] hover:text-[#111827]"

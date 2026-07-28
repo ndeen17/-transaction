@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { ComingSoonToast } from "../components/dashboard/ComingSoonToast";
 import { DashboardBottomNav, DashboardSidebar } from "../components/dashboard/DashboardNav";
 import { DashboardButton } from "../components/dashboard/DashboardButton";
-import { CameraIcon, TrashIcon } from "../components/dashboard/icons";
+import { CameraIcon, LogoutIcon, TrashIcon } from "../components/dashboard/icons";
 import { DASH_CARD } from "../components/dashboard/theme";
 import { useAuthedUser } from "../lib/useAuthedUser";
 import { useComingSoonToast } from "../lib/useComingSoonToast";
