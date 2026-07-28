@@ -53,11 +53,11 @@ export function TransactionDetailPage() {
 
   async function handleShare() {
     if (!transaction) return;
-    const text = `Astera Banking receipt\nRef: ${transaction.reference}\nAmount: ${transaction.amount} ${transaction.currency}\nStatus: ${transaction.status}`;
+    const text = `Vaulto Hub receipt\nRef: ${transaction.reference}\nAmount: ${transaction.amount} ${transaction.currency}\nStatus: ${transaction.status}`;
 
     if (navigator.share) {
       try {
-        await navigator.share({ title: "Astera Banking Receipt", text });
+        await navigator.share({ title: "Vaulto Hub Receipt", text });
         return;
       } catch {
         // User cancelled the native share sheet — fall through to clipboard.

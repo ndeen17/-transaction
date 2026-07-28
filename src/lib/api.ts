@@ -405,6 +405,7 @@ export function removeProfileImage(token: string) {
 
 export interface CryptoAsset {
   id: string;
+  coingeckoId: string;
   symbol: string;
   name: string;
   network?: string;
@@ -428,6 +429,7 @@ export interface CryptoDepositSummary {
   address: string;
   amountCrypto: number;
   amount: number;
+  priceUsdAtSubmission: number;
   currency: string;
   txHash?: string;
   reference: string;
@@ -443,7 +445,6 @@ export interface CryptoDepositSummary {
 export interface SubmitCryptoDepositPayload {
   assetId: string;
   amountCrypto: number;
-  amount: number;
   txHash?: string;
   pin: string;
 }
@@ -529,9 +530,25 @@ export function markAllNotificationsRead(token: string) {
 
 // ---- Admin: crypto assets ----
 
-export interface AdminCryptoAssetPayload {
+export interface CryptoCatalogOption {
+  coingeckoId: string;
   symbol: string;
   name: string;
+}
+
+export function adminListCryptoCatalog(token: string) {
+  return request<CryptoCatalogOption[]>("/admin/crypto-catalog", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export interface AdminCreateCryptoAssetPayload {
+  coingeckoId: string;
+  network?: string;
+  address: string;
+}
+
+export interface AdminUpdateCryptoAssetPayload {
   network?: string;
   address: string;
 }
@@ -542,7 +559,7 @@ export function adminListCryptoAssets(token: string) {
   });
 }
 
-export function adminCreateCryptoAsset(token: string, payload: AdminCryptoAssetPayload) {
+export function adminCreateCryptoAsset(token: string, payload: AdminCreateCryptoAssetPayload) {
   return request<CryptoAsset>("/admin/crypto-assets", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -550,7 +567,7 @@ export function adminCreateCryptoAsset(token: string, payload: AdminCryptoAssetP
   });
 }
 
-export function adminUpdateCryptoAsset(token: string, id: string, payload: AdminCryptoAssetPayload) {
+export function adminUpdateCryptoAsset(token: string, id: string, payload: AdminUpdateCryptoAssetPayload) {
   return request<CryptoAsset>(`/admin/crypto-assets/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },

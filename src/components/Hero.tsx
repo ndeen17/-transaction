@@ -43,7 +43,7 @@ function PromoCard() {
             strokeLinejoin="round"
           />
         </svg>
-        Astera Banking
+        Vaulto Hub
       </span>
 
       <div className="mt-6">
@@ -131,7 +131,7 @@ export function Hero() {
               strokeLinejoin="round"
             />
           </svg>
-          Astera Banking
+          Vaulto Hub
         </span>
 
         <h1 className="mt-5 max-w-4xl text-[36px] font-medium leading-[1.08] tracking-tight text-ink sm:mt-6 sm:text-[56px] lg:text-[76px]">

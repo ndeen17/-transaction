@@ -79,7 +79,7 @@ export function VaultAdminPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0B0F1A] px-4">
         <div className="w-full max-w-[380px] rounded-[20px] border border-white/10 bg-[#111827] p-8 shadow-[0_20px_50px_-16px_rgba(0,0,0,0.6)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Astera Banking</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Vaulto Hub</p>
           <h1 className="mt-1.5 text-xl font-semibold text-white">VaultAdmin</h1>
           <p className="mt-1.5 text-sm text-[#9CA3AF]">Sign in with the admin password to continue.</p>
 
@@ -108,7 +108,7 @@ export function VaultAdminPage() {
       <div className="mx-auto max-w-[960px] px-4 py-8 sm:px-6 sm:py-10">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Astera Banking</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Vaulto Hub</p>
             <h1 className="mt-1 text-xl font-semibold text-[#111827]">VaultAdmin</h1>
           </div>
           <button

@@ -13,7 +13,7 @@ export function Logo({
     <span className={`inline-flex items-center gap-2 ${className}`}>
       <img src="/logo-mark.png" alt="" className={`${markClassName} shrink-0 object-contain`} />
       <span className={`whitespace-nowrap font-semibold tracking-tight ${textClassName}`}>
-        Astera Banking
+        Vaulto Hub
       </span>
     </span>
   );

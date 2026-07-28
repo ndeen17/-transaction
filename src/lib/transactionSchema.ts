@@ -41,7 +41,6 @@ const cryptoAmountField = z
 export const cryptoDepositDetailsSchema = z.object({
   assetId: z.string().trim().min(1, "Choose a crypto asset"),
   amountCrypto: cryptoAmountField,
-  amount: amountField,
   txHash: z.string().trim().max(200).optional().or(z.literal("")),
 });
 

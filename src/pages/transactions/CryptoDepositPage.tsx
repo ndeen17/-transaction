@@ -7,7 +7,6 @@ import { AuthenticateStep } from "../../components/transactions/AuthenticateStep
 import { ProcessingStep } from "../../components/transactions/ProcessingStep";
 import { PendingStep } from "../../components/transactions/PendingStep";
 import { sleep } from "../../lib/async";
-import { formatCurrency } from "../../lib/format";
 import { useAuthedUser } from "../../lib/useAuthedUser";
 import {
   ApiRequestError,
@@ -50,7 +49,6 @@ export function CryptoDepositPage() {
       submitCryptoDeposit(token, {
         assetId: asset.id,
         amountCrypto: draft.amountCrypto,
-        amount: draft.amount,
         txHash: draft.txHash || undefined,
         pin,
       }),
@@ -73,7 +71,6 @@ export function CryptoDepositPage() {
           ...(asset.network ? [{ label: "Network", value: asset.network }] : []),
           { label: "Address", value: asset.address },
           { label: "Amount sent", value: `${draft.amountCrypto} ${asset.symbol}` },
-          { label: "USD value", value: formatCurrency(draft.amount, user.account.currency) },
           ...(draft.txHash ? [{ label: "Transaction hash", value: draft.txHash }] : []),
         ]
       : [];

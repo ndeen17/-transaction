@@ -22,7 +22,7 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
       className="mx-auto w-full max-w-[420px] rounded-[20px] border border-[#E5E7EB] bg-white p-6 sm:p-8"
     >
       <div className="flex items-center justify-between">
-        <span className="text-[15px] font-bold tracking-tight text-[#0B0B0F]">Astera Banking</span>
+        <span className="text-[15px] font-bold tracking-tight text-[#0B0B0F]">Vaulto Hub</span>
         <span
           className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-medium ${
             isCompleted ? "bg-[#F0FDF4] text-[#16A34A]" : "bg-[#FEF2F2] text-[#DC2626]"

@@ -45,7 +45,7 @@ export function VaultAdminCryptoDepositsPage() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="mx-auto max-w-[960px] px-4 py-8 sm:px-6 sm:py-10">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Astera Banking</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Vaulto Hub</p>
           <h1 className="mt-1 text-xl font-semibold text-[#111827]">VaultAdmin</h1>
         </div>
 

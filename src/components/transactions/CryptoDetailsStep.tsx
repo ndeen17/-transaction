@@ -11,7 +11,6 @@ import { cryptoDepositDetailsSchema, type CryptoDepositDetailsValues } from "../
 interface CryptoFormInput {
   assetId: string;
   amountCrypto: string;
-  amount: string;
   txHash?: string;
 }
 
@@ -25,7 +24,6 @@ function toFormInput(values?: Partial<CryptoDepositDetailsValues>): CryptoFormIn
   return {
     assetId: values?.assetId ?? "",
     amountCrypto: values?.amountCrypto !== undefined ? String(values.amountCrypto) : "",
-    amount: values?.amount !== undefined ? String(values.amount) : "",
     txHash: values?.txHash ?? "",
   };
 }
@@ -154,18 +152,6 @@ export function CryptoDetailsStep({ token, defaultValues, onContinue }: CryptoDe
               inputMode="decimal"
               {...register("amountCrypto")}
               className={dashInputClass(!!errors.amountCrypto)}
-              placeholder="0.00"
-            />
-          </DashField>
-
-          <DashField label="USD value" error={errors.amount?.message}>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              inputMode="decimal"
-              {...register("amount")}
-              className={dashInputClass(!!errors.amount)}
               placeholder="0.00"
             />
           </DashField>

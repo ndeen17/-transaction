@@ -27,12 +27,12 @@ export function AccountCard({ accountType, kycReviewStatus, account }: AccountCa
 
   return (
     <div className="relative overflow-hidden rounded-[28px] bg-[linear-gradient(135deg,#3D75E8_0%,#1E40AF_55%,#12296B_100%)] p-6 text-white shadow-[0_20px_50px_-16px_rgba(23,65,176,0.5)] sm:p-8">
-      {/* Offset brand mark, bleeding off the top-right edge as a subtle watermark */}
+      {/* Offset brand mark, bleeding off the right edge lower on the card as a subtle watermark */}
       <img
         src="/logo-mark.png"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 object-contain opacity-[0.14] sm:h-48 sm:w-48"
+        className="pointer-events-none absolute -right-6 top-28 h-40 w-40 object-contain opacity-[0.14] sm:top-32 sm:h-48 sm:w-48"
       />
       {/* Subtle grain texture for a premium, non-flat surface */}
       <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05] mix-blend-overlay" aria-hidden>

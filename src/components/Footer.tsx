@@ -62,7 +62,7 @@ export function Footer() {
         <div>
           <Logo markClassName="h-8 w-auto" textClassName="text-base text-ink" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink/70">
-            Astera Banking helps individuals and businesses send, receive, and exchange
+            Vaulto Hub helps individuals and businesses send, receive, and exchange
             currencies faster, cheaper, and with full transparency.
           </p>
         </div>
@@ -88,7 +88,7 @@ export function Footer() {
       </div>
 
       <div className="relative mt-10 flex flex-col items-center justify-between gap-4 border-t border-ink/10 pt-6 sm:flex-row">
-        <p className="text-xs text-ink/60">© {year} Astera Banking. All rights reserved.</p>
+        <p className="text-xs text-ink/60">© {year} Vaulto Hub. All rights reserved.</p>
         <div className="flex items-center gap-5">
           <Link to="/terms" className="text-xs text-ink/60 hover:text-ink">
             Terms

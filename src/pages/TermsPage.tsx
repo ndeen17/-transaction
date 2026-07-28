@@ -22,7 +22,7 @@ export function TermsPage() {
           <section>
             <h2 className="text-base font-semibold">1. Acceptance of terms</h2>
             <p className="mt-2 text-muted">
-              By creating an account with Astera Banking, you agree to be bound by these Terms
+              By creating an account with Vaulto Hub, you agree to be bound by these Terms
               and Conditions and all applicable laws and regulations governing the provision of
               banking and currency exchange services.
             </p>

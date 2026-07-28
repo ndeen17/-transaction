@@ -10,34 +10,49 @@ import {
   adminCreateCryptoAsset,
   adminDeleteCryptoAsset,
   adminListCryptoAssets,
+  adminListCryptoCatalog,
   adminUpdateCryptoAsset,
-  type AdminCryptoAssetPayload,
+  type AdminCreateCryptoAssetPayload,
+  type AdminUpdateCryptoAssetPayload,
   type CryptoAsset,
+  type CryptoCatalogOption,
 } from "../../lib/api";
 
-interface AssetFormValues {
-  symbol: string;
-  name: string;
+interface CreateFormValues {
+  coingeckoId: string;
   network: string;
   address: string;
 }
 
-const EMPTY_FORM: AssetFormValues = { symbol: "", name: "", network: "", address: "" };
+interface EditFormValues {
+  network: string;
+  address: string;
+}
 
-function AssetForm({
-  initialValues = EMPTY_FORM,
-  submitLabel,
+function CreateAssetForm({
+  token,
   onSubmit,
   onCancel,
 }: {
-  initialValues?: AssetFormValues;
-  submitLabel: string;
-  onSubmit: (values: AdminCryptoAssetPayload) => Promise<void>;
+  token: string;
+  onSubmit: (values: AdminCreateCryptoAssetPayload) => Promise<void>;
   onCancel: () => void;
 }) {
-  const [values, setValues] = useState<AssetFormValues>(initialValues);
+  const [catalog, setCatalog] = useState<CryptoCatalogOption[]>([]);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState<string | null>(null);
+  const [values, setValues] = useState<CreateFormValues>({ coingeckoId: "", network: "", address: "" });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    adminListCryptoCatalog(token)
+      .then(setCatalog)
+      .catch((err) =>
+        setCatalogError(err instanceof ApiRequestError ? err.message : "Couldn't load available currencies."),
+      )
+      .finally(() => setCatalogLoading(false));
+  }, [token]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -45,8 +60,7 @@ function AssetForm({
     setError(null);
     try {
       await onSubmit({
-        symbol: values.symbol,
-        name: values.name,
+        coingeckoId: values.coingeckoId,
         network: values.network || undefined,
         address: values.address,
       });
@@ -60,23 +74,26 @@ function AssetForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-5 sm:p-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <DashField label="Symbol">
-          <input
-            value={values.symbol}
-            onChange={(e) => setValues((v) => ({ ...v, symbol: e.target.value }))}
-            placeholder="BTC"
-            required
-            className={dashInputClass()}
-          />
-        </DashField>
-        <DashField label="Name">
-          <input
-            value={values.name}
-            onChange={(e) => setValues((v) => ({ ...v, name: e.target.value }))}
-            placeholder="Bitcoin"
-            required
-            className={dashInputClass()}
-          />
+        <DashField label="Currency">
+          {catalogLoading && <p className="text-sm text-[#6B7280]">Loading…</p>}
+          {catalogError && <p className="text-sm text-[#DC2626]">{catalogError}</p>}
+          {!catalogLoading && !catalogError && (
+            <select
+              value={values.coingeckoId}
+              onChange={(e) => setValues((v) => ({ ...v, coingeckoId: e.target.value }))}
+              required
+              className={dashInputClass()}
+            >
+              <option value="" disabled>
+                Choose a currency
+              </option>
+              {catalog.map((coin) => (
+                <option key={coin.coingeckoId} value={coin.coingeckoId}>
+                  {coin.symbol} — {coin.name}
+                </option>
+              ))}
+            </select>
+          )}
         </DashField>
         <DashField label="Network" optional>
           <input
@@ -100,8 +117,70 @@ function AssetForm({
       {error && <p className="rounded-xl bg-[#FEF2F2] px-4 py-3 text-sm text-[#DC2626]">{error}</p>}
 
       <div className="flex gap-2">
+        <DashboardButton type="submit" disabled={submitting || catalogLoading}>
+          {submitting ? "Saving…" : "Create asset"}
+        </DashboardButton>
+        <DashboardButton type="button" variant="secondary" onClick={onCancel}>
+          Cancel
+        </DashboardButton>
+      </div>
+    </form>
+  );
+}
+
+function EditAssetForm({
+  initialValues,
+  onSubmit,
+  onCancel,
+}: {
+  initialValues: EditFormValues;
+  onSubmit: (values: AdminUpdateCryptoAssetPayload) => Promise<void>;
+  onCancel: () => void;
+}) {
+  const [values, setValues] = useState<EditFormValues>(initialValues);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      await onSubmit({ network: values.network || undefined, address: values.address });
+    } catch (err) {
+      setError(err instanceof ApiRequestError ? err.message : "Something went wrong.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4 p-5 sm:p-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <DashField label="Network" optional>
+          <input
+            value={values.network}
+            onChange={(e) => setValues((v) => ({ ...v, network: e.target.value }))}
+            placeholder="TRC-20"
+            className={dashInputClass()}
+          />
+        </DashField>
+        <DashField label="Address">
+          <input
+            value={values.address}
+            onChange={(e) => setValues((v) => ({ ...v, address: e.target.value }))}
+            placeholder="Deposit address"
+            required
+            className={dashInputClass()}
+          />
+        </DashField>
+      </div>
+
+      {error && <p className="rounded-xl bg-[#FEF2F2] px-4 py-3 text-sm text-[#DC2626]">{error}</p>}
+
+      <div className="flex gap-2">
         <DashboardButton type="submit" disabled={submitting}>
-          {submitting ? "Saving…" : submitLabel}
+          {submitting ? "Saving…" : "Save changes"}
         </DashboardButton>
         <DashboardButton type="button" variant="secondary" onClick={onCancel}>
           Cancel
@@ -136,14 +215,14 @@ export function VaultAdminCryptoAssetsPage() {
     return <Navigate to="/vaultadmin" replace />;
   }
 
-  async function handleCreate(payload: AdminCryptoAssetPayload) {
+  async function handleCreate(payload: AdminCreateCryptoAssetPayload) {
     if (!token) return;
     await adminCreateCryptoAsset(token, payload);
     setShowAddForm(false);
     loadAssets();
   }
 
-  async function handleUpdate(id: string, payload: AdminCryptoAssetPayload) {
+  async function handleUpdate(id: string, payload: AdminUpdateCryptoAssetPayload) {
     if (!token) return;
     await adminUpdateCryptoAsset(token, id, payload);
     setEditingId(null);
@@ -161,7 +240,7 @@ export function VaultAdminCryptoAssetsPage() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="mx-auto max-w-[960px] px-4 py-8 sm:px-6 sm:py-10">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Astera Banking</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#6B7280]">Vaulto Hub</p>
           <h1 className="mt-1 text-xl font-semibold text-[#111827]">VaultAdmin</h1>
         </div>
 
@@ -174,9 +253,9 @@ export function VaultAdminCryptoAssetsPage() {
           )}
         </div>
 
-        {showAddForm && (
+        {showAddForm && token && (
           <div className={`${DASH_CARD} mt-4`}>
-            <AssetForm submitLabel="Create asset" onSubmit={handleCreate} onCancel={() => setShowAddForm(false)} />
+            <CreateAssetForm token={token} onSubmit={handleCreate} onCancel={() => setShowAddForm(false)} />
           </div>
         )}
 
@@ -190,15 +269,9 @@ export function VaultAdminCryptoAssetsPage() {
             <div className="divide-y divide-[#E5E7EB]">
               {assets.map((asset) =>
                 editingId === asset.id ? (
-                  <AssetForm
+                  <EditAssetForm
                     key={asset.id}
-                    initialValues={{
-                      symbol: asset.symbol,
-                      name: asset.name,
-                      network: asset.network ?? "",
-                      address: asset.address,
-                    }}
-                    submitLabel="Save changes"
+                    initialValues={{ network: asset.network ?? "", address: asset.address }}
                     onSubmit={(payload) => handleUpdate(asset.id, payload)}
                     onCancel={() => setEditingId(null)}
                   />
