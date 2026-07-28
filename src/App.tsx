@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { SupportChat } from "./components/SupportChat";
 import { LandingPage } from "./pages/LandingPage";
 import { SignupWizard } from "./pages/signup/SignupWizard";
 import { LoginPage } from "./pages/LoginPage";
@@ -25,6 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-white px-3 py-3 sm:px-6 sm:py-6">
+        <SupportChat />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignupWizard />} />
