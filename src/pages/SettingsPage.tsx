@@ -167,6 +167,19 @@ export function SettingsPage() {
             </dl>
           </div>
         )}
+
+        <div className={`${DASH_CARD} mt-5 hidden p-5 sm:p-6 lg:block`}>
+          <h2 className="text-[15px] font-semibold text-[#111827]">Session</h2>
+          <p className="mt-1 text-sm text-[#6B7280]">Sign out of your account on this device.</p>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#FEE2E2] bg-[#FEF2F2] px-4 py-2.5 text-sm font-medium text-[#DC2626] transition-colors duration-150 ease-in-out hover:bg-[#FEE2E2]"
+          >
+            <LogoutIcon className="h-4 w-4" />
+            Log out
+          </button>
+        </div>
       </div>
 
       <DashboardBottomNav onComingSoon={show} onLogout={handleLogout} />
