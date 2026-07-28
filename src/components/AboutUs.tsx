@@ -25,7 +25,7 @@ export function AboutUs({ panelClass }: { panelClass: string }) {
 
         <Link
           to="/signup"
-          className="mt-8 flex w-fit items-center gap-2 rounded-full bg-ink py-3 pl-6 pr-3 text-sm font-medium text-white"
+          className="mt-8 flex w-fit items-center gap-2 rounded-full bg-ink py-3 pl-6 pr-3 text-sm font-medium text-white transition-all duration-200 hover:bg-ink/85 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
         >
           Get Started
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15">

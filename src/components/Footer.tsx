@@ -77,7 +77,7 @@ export function Footer() {
           </p>
           <Link
             to="/signup"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-ink py-2.5 pl-4 pr-2 text-sm font-medium text-white"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-ink py-2.5 pl-4 pr-2 text-sm font-medium text-white transition-all duration-200 hover:bg-ink/85 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
           >
             Sign up
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/15">

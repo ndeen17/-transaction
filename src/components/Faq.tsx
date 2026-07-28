@@ -53,9 +53,9 @@ export function Faq({ panelClass }: { panelClass: string }) {
         {FAQS.map((item) => (
           <details
             key={item.question}
-            className="group rounded-2xl border border-[#EEF1F5] bg-white px-5 py-4 open:bg-[#F6F8FB]"
+            className="group rounded-2xl border border-[#EEF1F5] bg-white px-5 py-4 transition-colors open:bg-[#F6F8FB] hover:bg-[#F6F8FB]"
           >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-ink marker:content-none">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-ink marker:content-none hover:text-blue-600">
               {item.question}
               <ChevronIcon />
             </summary>

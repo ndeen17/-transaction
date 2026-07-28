@@ -23,9 +23,9 @@ export function TrustBar() {
         </p>
       </div>
 
-      <a href="#about" className="flex items-center gap-2 text-sm text-ink">
+      <a href="#about" className="group flex items-center gap-2 text-sm text-ink transition-colors hover:text-blue-600">
         <span className="hidden sm:inline">Scroll down</span>
-        <ArrowDownCircleIcon className="h-7 w-7 text-ink" />
+        <ArrowDownCircleIcon className="h-7 w-7 text-ink transition-transform duration-200 group-hover:translate-y-0.5 group-hover:text-blue-600" />
       </a>
     </div>
   );

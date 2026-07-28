@@ -154,7 +154,7 @@ export function Hero() {
 
         <Link
           to="/signup"
-          className="mt-6 flex items-center gap-2 rounded-full bg-gradient-to-b from-blue-600 to-blue-700 py-3 pl-6 pr-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 sm:mt-7"
+          className="mt-6 flex items-center gap-2 rounded-full bg-gradient-to-b from-blue-600 to-blue-700 py-3 pl-6 pr-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 transition-all duration-200 hover:shadow-xl hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 sm:mt-7"
         >
           Get Started
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20">

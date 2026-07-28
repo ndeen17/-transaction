@@ -57,16 +57,19 @@ export function Header() {
         </nav>
 
         <div className="flex items-center justify-self-end gap-2 sm:gap-3">
-          <button className="hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm text-ink md:flex">
+          <button className="hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm text-ink transition-colors md:flex hover:bg-[#F4F6F9]">
             <GlobeIcon className="h-4 w-4" />
             English
           </button>
-          <Link to="/login" className="hidden text-sm text-ink md:inline-block">
+          <Link
+            to="/login"
+            className="hidden text-sm text-ink transition-colors md:inline-block hover:text-blue-600"
+          >
             Log in
           </Link>
           <Link
             to="/signup"
-            className="hidden items-center gap-1.5 rounded-full bg-blue-600 py-2 pl-4 pr-2 text-sm font-medium text-white md:flex"
+            className="hidden items-center gap-1.5 rounded-full bg-blue-600 py-2 pl-4 pr-2 text-sm font-medium text-white transition-all duration-200 md:flex hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 active:scale-95"
           >
             Sign up
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
@@ -79,7 +82,7 @@ export function Header() {
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#EEF1F5] text-ink md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#EEF1F5] text-ink transition-colors md:hidden hover:bg-[#F4F6F9]"
           >
             <MenuIcon open={open} />
           </button>
@@ -93,8 +96,8 @@ export function Header() {
               key={link.label}
               href={link.href}
               onClick={() => setOpen(false)}
-              className={`rounded-xl px-4 py-2.5 text-sm ${
-                i === 0 ? "bg-white font-medium text-ink shadow-sm" : "text-muted"
+              className={`rounded-xl px-4 py-2.5 text-sm transition-colors ${
+                i === 0 ? "bg-white font-medium text-ink shadow-sm" : "text-muted hover:text-ink"
               }`}
             >
               {link.label}
@@ -103,7 +106,7 @@ export function Header() {
           <Link
             to="/signup"
             onClick={() => setOpen(false)}
-            className="mt-1 flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 py-2.5 text-sm font-medium text-white"
+            className="mt-1 flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 active:scale-95"
           >
             Sign up
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
@@ -112,11 +115,15 @@ export function Header() {
           </Link>
 
           <div className="mt-1 flex items-center justify-between border-t border-[#EEF1F5] px-4 pt-3">
-            <button className="flex items-center gap-1.5 text-sm text-ink">
+            <button className="flex items-center gap-1.5 text-sm text-ink transition-colors hover:text-blue-600">
               <GlobeIcon className="h-4 w-4" />
               English
             </button>
-            <Link to="/login" onClick={() => setOpen(false)} className="text-sm text-ink">
+            <Link
+              to="/login"
+              onClick={() => setOpen(false)}
+              className="text-sm text-ink transition-colors hover:text-blue-600"
+            >
               Log in
             </Link>
           </div>
