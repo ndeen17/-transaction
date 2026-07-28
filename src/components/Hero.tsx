@@ -100,6 +100,16 @@ function ChartCard() {
             stroke="#4F9BFF"
             strokeWidth="2.5"
             strokeLinecap="round"
+            strokeDasharray="400"
+            className="animate-draw-line"
+          />
+          <circle
+            cx="84"
+            cy="34"
+            r="3.5"
+            fill="#0B1C3D"
+            className="animate-ping"
+            style={{ transformOrigin: "84px 34px" }}
           />
           <circle cx="84" cy="34" r="3.5" fill="#0B1C3D" />
         </svg>
