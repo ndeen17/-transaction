@@ -27,6 +27,35 @@ export function GlobeIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function EyeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" {...props}>
+      <path
+        d="M2 10s2.9-5.4 8-5.4S18 10 18 10s-2.9 5.4-8 5.4S2 10 2 10Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="10" cy="10" r="2.25" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  );
+}
+
+export function EyeOffIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" {...props}>
+      <path
+        d="M3.3 3.3l13.4 13.4M8 8.3a2.25 2.25 0 0 0 3.2 3.2M5.7 5.8C3.6 7.1 2 10 2 10s2.9 5.4 8 5.4c1.4 0 2.7-.4 3.7-1M10 4.6c4.6 0 8 5.4 8 5.4s-.7 1.3-2 2.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function PencilIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 20 20" fill="none" {...props}>

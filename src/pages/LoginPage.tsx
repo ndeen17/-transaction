@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
+import { PasswordInput } from "../components/ui/PasswordInput";
 import { WizardPanel } from "../components/ui/WizardPanel";
 import { Logo } from "../components/Logo";
 import { ApiRequestError, login } from "../lib/api";
@@ -74,13 +75,11 @@ export function LoginPage() {
                 Forgot password?
               </Link>
             </span>
-            <input
-              type="password"
+            <PasswordInput
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
               required
-              className="w-full rounded-2xl border border-[#EEF1F5] bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-blue-500"
             />
           </label>
 

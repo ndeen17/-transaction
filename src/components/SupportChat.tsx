@@ -1,18 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import "../lib/supportChat";
 
 const TAWK_SRC = "https://embed.tawk.to/6a687f504e35e01d476b498d/1juk32lba";
-
-declare global {
-  interface Window {
-    Tawk_API?: {
-      onLoad?: () => void;
-      showWidget?: () => void;
-      hideWidget?: () => void;
-    };
-    Tawk_LoadStart?: Date;
-  }
-}
 
 // Loads the Tawk.to widget lazily on first entry into the signed-in dashboard area,
 // then just shows/hides it as the user navigates — never loaded at all for anonymous

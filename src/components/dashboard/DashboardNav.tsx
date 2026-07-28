@@ -1,20 +1,21 @@
 import type { ComponentType, SVGProps } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../Logo";
+import { openSupportChat } from "../../lib/supportChat";
 import { ChatIcon, HomeIcon, LogoutIcon, SettingsIcon } from "./icons";
 import { DASH_FOCUS_RING } from "./theme";
 
 interface NavItem {
   label: string;
   Icon: ComponentType<SVGProps<SVGSVGElement>>;
-  action: "logout" | "comingSoon" | "link";
+  action: "logout" | "openSupport" | "link";
   to?: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Settings", Icon: SettingsIcon, action: "link", to: "/dashboard/settings" },
   { label: "Home", Icon: HomeIcon, action: "link", to: "/dashboard" },
-  { label: "Support", Icon: ChatIcon, action: "comingSoon" },
+  { label: "Support", Icon: ChatIcon, action: "openSupport" },
   { label: "Logout", Icon: LogoutIcon, action: "logout" },
 ];
 
@@ -23,9 +24,9 @@ interface NavHandlers {
   onLogout: () => void;
 }
 
-function handleClick(item: NavItem, { onComingSoon, onLogout }: NavHandlers) {
+function handleClick(item: NavItem, { onLogout }: NavHandlers) {
   if (item.action === "logout") onLogout();
-  else if (item.action === "comingSoon") onComingSoon(item.label);
+  else if (item.action === "openSupport") openSupportChat();
 }
 
 function isActive(item: NavItem, pathname: string): boolean {

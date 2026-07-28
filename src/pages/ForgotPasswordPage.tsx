@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { OtpInput } from "../components/ui/OtpInput";
+import { PasswordInput } from "../components/ui/PasswordInput";
 import { WizardPanel } from "../components/ui/WizardPanel";
 import { Logo } from "../components/Logo";
 import { ApiRequestError, confirmPasswordReset, requestPasswordReset } from "../lib/api";
@@ -146,25 +147,21 @@ export function ForgotPasswordPage() {
 
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-ink">New password</span>
-                <input
-                  type="password"
+                <PasswordInput
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   autoComplete="new-password"
                   required
-                  className="w-full rounded-2xl border border-[#EEF1F5] bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-blue-500"
                 />
               </label>
 
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-ink">Confirm new password</span>
-                <input
-                  type="password"
+                <PasswordInput
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
                   autoComplete="new-password"
                   required
-                  className="w-full rounded-2xl border border-[#EEF1F5] bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-blue-500"
                 />
               </label>
               <p className="text-xs text-muted">At least 8 characters, with a mix of letters and numbers.</p>
