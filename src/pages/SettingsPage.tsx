@@ -168,7 +168,7 @@ export function SettingsPage() {
           </div>
         )}
 
-        <div className={`${DASH_CARD} mt-5 hidden p-5 sm:p-6 lg:block`}>
+        <div className={`${DASH_CARD} mt-5 p-5 sm:p-6`}>
           <h2 className="text-[15px] font-semibold text-[#111827]">Session</h2>
           <p className="mt-1 text-sm text-[#6B7280]">Sign out of your account on this device.</p>
           <button

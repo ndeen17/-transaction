@@ -33,7 +33,7 @@ function ActionTile({ label, Icon, to }: Action) {
   return (
     <Link to={to} className={tileClassName}>
       <ActionIcon Icon={Icon} />
-      <span className="w-full truncate text-xs font-medium leading-tight text-[#111827]">{label}</span>
+      <span className="w-full text-[11px] font-medium leading-tight text-[#111827] sm:text-xs">{label}</span>
     </Link>
   );
 }

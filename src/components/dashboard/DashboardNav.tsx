@@ -2,7 +2,7 @@ import type { ComponentType, SVGProps } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../Logo";
 import { openSupportChat } from "../../lib/supportChat";
-import { ArrowUpIcon, ChatIcon, HomeIcon, LogoutIcon, SettingsIcon } from "./icons";
+import { ArrowUpIcon, ChatIcon, HomeIcon, SettingsIcon } from "./icons";
 import { DASH_FOCUS_RING } from "./theme";
 
 interface NavItem {
@@ -131,15 +131,6 @@ export function DashboardSidebar(handlers: NavHandlers) {
           );
         })}
       </nav>
-
-      <button
-        type="button"
-        onClick={handlers.onLogout}
-        className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-[#6B7280] transition-colors duration-150 ease-in-out hover:bg-[#FEF2F2] hover:text-[#DC2626] ${DASH_FOCUS_RING}`}
-      >
-        <LogoutIcon className="h-[22px] w-[22px]" />
-        Log out
-      </button>
     </aside>
   );
 }
