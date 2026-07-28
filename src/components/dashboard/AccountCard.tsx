@@ -60,22 +60,22 @@ export function AccountCard({ accountType, kycReviewStatus, account }: AccountCa
           type="button"
           onClick={() => setBalanceVisible((v) => !v)}
           aria-label={balanceVisible ? "Hide balance" : "Show balance"}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 ease-in-out hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 ease-in-out hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 sm:h-10 sm:w-10"
         >
           {balanceVisible ? <EyeIcon className="h-[18px] w-[18px]" /> : <EyeOffIcon className="h-[18px] w-[18px]" />}
         </button>
       </div>
 
-      <p className="relative mb-1 mt-6 text-[13px] font-medium text-white/60">Available balance</p>
+      <p className="relative mb-1 mt-4 text-[13px] font-medium text-white/60 sm:mt-6">Available balance</p>
       <p
-        className={`relative text-[40px] font-semibold tracking-tight transition-all duration-300 ease-in-out sm:text-[48px] ${
+        className={`relative text-[32px] font-semibold tracking-tight transition-all duration-300 ease-in-out sm:text-[48px] ${
           balanceVisible ? "blur-0 opacity-100" : "opacity-90"
         }`}
       >
         {balanceVisible ? formatCurrency(account.balance, account.currency) : "•••••• . ••"}
       </p>
 
-      <div className="relative mt-7 flex items-center justify-between border-t border-white/15 pt-5">
+      <div className="relative mt-5 flex items-center justify-between border-t border-white/15 pt-4 sm:mt-7 sm:pt-5">
         <div>
           <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-white/60">Account number</p>
           <p className="mt-1.5 text-sm font-medium tabular-nums">{maskAccountNumber(account.accountNumber)}</p>
@@ -90,7 +90,7 @@ export function AccountCard({ accountType, kycReviewStatus, account }: AccountCa
         </button>
       </div>
 
-      <div className="relative mt-5 grid grid-cols-2 divide-x divide-white/15 border-t border-white/15 pt-5">
+      <div className="relative mt-4 grid grid-cols-2 divide-x divide-white/15 border-t border-white/15 pt-4 sm:mt-5 sm:pt-5">
         <div>
           <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-white/60">Total credit</p>
           <p className="mt-1.5 text-sm font-semibold tabular-nums text-emerald-300">
