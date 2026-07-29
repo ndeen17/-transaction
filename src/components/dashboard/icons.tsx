@@ -15,12 +15,10 @@ export function TransferIcon(props: SVGProps<SVGSVGElement>) {
 export function CryptoIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} {...props}>
-      <circle cx="12" cy="12" r="8.5" {...stroke} />
-      <path
-        d="M10.3 8.7h2.6c1 0 1.75.62 1.75 1.5 0 .65-.4 1.1-.95 1.32.72.2 1.2.7 1.2 1.45 0 1.02-.85 1.63-1.9 1.63h-2.7V8.7Zm.5 2.7h1.75c.6 0 .97-.3.97-.75 0-.46-.37-.75-.97-.75H10.8v1.5Zm0 2.7h1.9c.63 0 1.05-.32 1.05-.82s-.42-.8-1.05-.8H10.8v1.62Z"
-        fill="currentColor"
-      />
-      <path d="M11.9 7.4v1.1M12.9 7.4v1.1M11.9 15.5v1.1M12.9 15.5v1.1" {...stroke} strokeWidth={1.4} />
+      <circle cx="12" cy="12" r="8.5" {...stroke} strokeWidth={1.9} />
+      <text x="12" y="16.2" textAnchor="middle" fontSize="11.5" fontWeight="800" fill="currentColor" stroke="none">
+        ₿
+      </text>
     </svg>
   );
 }

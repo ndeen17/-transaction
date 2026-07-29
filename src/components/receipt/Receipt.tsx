@@ -136,8 +136,12 @@ export const Receipt = forwardRef<HTMLDivElement, ReceiptProps>(function Receipt
 function Row({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-4">
-      <span className="text-sm text-[#6B7280]">{label}</span>
-      <span className={`text-right text-sm font-medium text-[#111827] ${mono ? "font-mono" : ""}`}>{value}</span>
+      <span className="shrink-0 text-sm text-[#6B7280]">{label}</span>
+      <span
+        className={`min-w-0 break-all text-right text-sm font-medium text-[#111827] ${mono ? "font-mono" : ""}`}
+      >
+        {value}
+      </span>
     </div>
   );
 }
